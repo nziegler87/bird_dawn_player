@@ -1,0 +1,64 @@
+Latitude,Longitude,Label,Status,Stop,Route,Direction
+42.33869,-71.09308,3685-3848,In transit to,Northeastern University,Green-E,North Station
+42.28201,-71.06209,1864,In transit to,Ashmont,Red,Alewife
+42.35406,-71.0619,1225,Incoming at,Downtown Crossing,Orange,Oak Grove
+42.36581,-71.04263,0786,Incoming at,Aquarium,Blue,Bowdoin
+42.37636,-71.1191,1819,Incoming at,Porter,Red,Alewife
+42.3329,-71.1105,3844-3621,Incoming at,Mission Park,Green-E,North Station
+42.30119,-71.11376,1292,Stopped at,Forest Hills-01,Orange,Oak Grove
+42.27033,-71.0696,3268,Incoming at,Central Avenue,Mattapan,Mattapan
+42.36563,-71.06057,3810-3625,Stopped at,North Station,Green-C,North Station
+42.3617,-71.0776,1824,Incoming at,Charles/MGH,Red,Ashmont/Braintree
+42.3489,-71.13982,3829-3682,Stopped at,Warren Street,Green-B,Boston College
+42.34885,-71.09469,3636-3831,In transit to,Hynes Convention Center,Green-C,North Station
+42.34341,-71.11665,3855-3614,Stopped at,Saint Paul Street,Green-C,Cleveland Circle
+42.3514,-71.11802,3907-3913,Incoming at,Pleasant Street,Green-B,Boston College
+42.34151,-71.14777,3870-3684,Incoming at,Sutherland Road,Green-B,Park Street
+42.3518,-71.07081,3902-3909,Incoming at,Boylston,Green-D,Government Center
+42.34195,-71.12198,3677-3852,Stopped at,Coolidge Corner,Green-C,North Station
+42.35391,-71.06209,1255,Incoming at,Chinatown,Orange,Forest Hills
+42.34059,-71.0884,3683-3885,Incoming at,Northeastern University,Green-E,Heath Street
+42.33695,-71.14559,3856-3676,Stopped at,Englewood Avenue,Green-C,North Station
+42.34018,-71.16709,3695-3841,In transit to,Error,Green-B,Park Street
+42.31394,-71.10574,1237,Incoming at,Green Street,Orange,Forest Hills
+42.39774,-71.13272,1879,Incoming at,Davis,Red,Ashmont/Braintree
+42.34018,-71.16709,3884-3635,In transit to,Error,Green-B,Park Street
+42.35625,-71.06264,3800-3702-3703,Stopped at,Park Street,Green-D,Riverside
+42.38752,-71.07693,1231,Incoming at,Assembly,Orange,Oak Grove
+42.34988,-71.1054,3813-3651,Incoming at,Boston University Central,Green-B,Boston College
+42.34064,-71.05724,1808,Incoming at,Andrew,Red,Ashmont/Braintree
+42.35301,-71.06454,3827,Incoming at,Park Street,Green-E,North Station
+42.33607,-71.14978,3717-3878,Stopped at,Cleveland Circle,Green-C,Cleveland Circle
+42.32057,-71.05256,1736,Stopped at,JFK/UMass,Red,Alewife
+42.33776,-71.08795,1319,In transit to,Massachusetts Avenue,Orange,Oak Grove
+42.38424,-71.07705,1281,Stopped at,Sullivan Square,Orange,Forest Hills
+42.39629,-71.13848,1613,Incoming at,Alewife,Red,Alewife
+42.35929,-71.05951,3837-3825,Incoming at,Park Street,Green-E,Heath Street
+42.3344,-71.10425,3668-3809,Stopped at,Brigham Circle,Green-E,Heath Street
+42.20749,-71.00173,1851,Stopped at,Braintree-02,Red,Alewife
+42.39618,-71.14054,1519,Stopped at,Alewife-02,Red,Ashmont/Braintree
+42.3505,-71.1109,3812-3707,Incoming at,Boston University Central,Green-B,Park Street
+42.27582,-71.03012,1700,Stopped at,North Quincy,Red,Alewife
+42.37538,-71.02905,0746,Incoming at,Wood Island,Blue,Wonderland
+42.33107,-71.057,1812,In transit to,Broadway,Red,Alewife
+42.4008,-70.99145,0735,Incoming at,Revere Beach,Blue,Wonderland
+42.36181,-71.07723,1622,Incoming at,Kendall/MIT,Red,Alewife
+42.35556,-71.06326,3853-3606,Incoming at,Boylston,Green-B,Boston College
+42.3517,-71.1253,3835-3652,Stopped at,Packards Corner,Green-B,Park Street
+42.33285,-71.24337,3823,Stopped at,Woodland,Green-D,Government Center
+42.262,-71.01576,1834,In transit to,Quincy Center,Red,Ashmont/Braintree
+42.33696,-71.25143,3849,Incoming at,Riverside,Green-D,Riverside
+42.20749,-71.00156,1840,Stopped at,Braintree-01,Red,Alewife
+42.34788,-71.08627,3639-3886,Incoming at,Copley,Green-B,Park Street
+42.36804,-71.1083,1523,Incoming at,Central,Red,Ashmont/Braintree
+42.35986,-71.05891,3872-3653,Incoming at,Haymarket,Green-E,North Station
+42.35559,-71.06334,3706-3863,Incoming at,Boylston,Green-C,Cleveland Circle
+42.38867,-70.99973,0724,Incoming at,Orient Heights,Blue,Bowdoin
+42.30671,-71.05498,1804,In transit to,Fields Corner,Red,Ashmont/Braintree
+42.36574,-71.06466,3691-3805,In transit to,Error,Green-E,North Station
+42.27072,-71.0655,3254,Incoming at,Butler,Mattapan,Ashmont
+42.3211,-71.20687,3887,In transit to,Eliot,Green-D,Riverside
+42.35084,-71.11334,3655-3821,Stopped at,Boston University West,Green-B,Boston College
+42.34811,-71.09211,3631-3869,In transit to,Kenmore,Green-C,Cleveland Circle
+42.32259,-71.20525,3894,Stopped at,Newton Highlands,Green-D,Government Center
+42.36115,-71.06208,0710,Stopped at,Bowdoin,Blue,Wonderland
