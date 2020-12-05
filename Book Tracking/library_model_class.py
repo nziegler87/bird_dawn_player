@@ -89,6 +89,29 @@ def get_isbn(json, isbn):
     return isbn_10, isbn_13
 
 
+def get_book(isbn):
+    # retrieve book
+    full_url = GOOGLE_URL + str(isbn)
+    raw_book = requests.get(full_url)
+
+    # check that it was loaded correctly
+    if raw_book.status_code != 200:
+        raise RuntimeError("Error with API request.")
+
+    if raw_book.json()["totalItems"] == 0:
+        raise RuntimeError("Book not found on Google.")
+
+    # parse data from json object
+    title = get_title(raw_book)
+    subtitle = get_title(raw_book)
+    published_date = get_published_date(raw_book)
+    authors = get_authors(raw_book)
+    isbn_10, isbn_13 = get_isbn(raw_book, isbn)
+
+    # create book
+    return Book(title, subtitle, authors, isbn_10, isbn_13, published_date)
+
+
 class LibraryModel:
     """
     A class that represents a model to store library books.
@@ -154,39 +177,18 @@ class LibraryModel:
         """
         return self.library
 
-    def add_book(self, isbn):
+    def add_book(self, book):
         """
         Method to retrieve book data by ISBN number.
 
-        :param isbn: a 10 or 13-digit isbn number
+        :param book: a book object
         :return: the book information as Book object
         """
 
         if not self.library_loaded:
             raise RuntimeError("Library is not initialized. Please load or create a new library.")
 
-        # retrieve book
-        full_url = GOOGLE_URL + str(isbn)
-        raw_book = requests.get(full_url)
-
-        # check that it was loaded correctly
-        if raw_book.status_code != 200:
-            raise RuntimeError("Error with API request.")
-
-        if raw_book.json()["totalItems"] == 0:
-            raise RuntimeError("Book not found on Google.")
-
-        # parse data from json object
-        title = get_title(raw_book)
-        subtitle = get_title(raw_book)
-        published_date = get_published_date(raw_book)
-        authors = get_authors(raw_book)
-        isbn_10, isbn_13 = get_isbn(raw_book, isbn)
-
-        # create book
-        new_book = Book(title, subtitle, authors, isbn_10, isbn_13, published_date)
-
-        self.library = self.library.append(new_book.to_dict(), ignore_index=True)
+        self.library = self.library.append(book.to_dict(), ignore_index=True)
 
     def book_exists(self, isbn):
         """
@@ -196,7 +198,7 @@ class LibraryModel:
         :return: true if isbn is in BOOKS list, otherwise false
         """
         isbn = str(isbn)
-        exists = isbn in self.library
+        exists = isbn in self.library.isbn_10.values or isbn in self.library.isbn_13.values
         return exists
 
     def print_book_list(self):
