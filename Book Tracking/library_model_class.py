@@ -42,6 +42,12 @@ def get_author_string(authors_list):
 
 
 def get_title(json):
+    """
+    Parses the book title from the json object.
+
+    :param json: A json object, pulled from Google.
+    :return: The title a string, which is blank of there is an error.
+    """
     try:
         return json.json()["items"][0]["volumeInfo"]['title']
     except KeyError:
@@ -49,6 +55,12 @@ def get_title(json):
 
 
 def get_subtitle(json):
+    """
+    Parses the book subtitle from the json object.
+
+    :param json: A json object, pulled from Google.
+    :return: The subtitle a string, which is blank of there is an error.
+    """
     try:
         return json.json()["items"][0]["volumeInfo"]['subtitle']
     except KeyError:
@@ -56,6 +68,12 @@ def get_subtitle(json):
 
 
 def get_published_date(json):
+    """
+    Parses the book published date from the json object.
+
+    :param json: A json object, pulled from Google.
+    :return: The published a string, which is blank of there is an error.
+    """
     try:
         return json.json()["items"][0]["volumeInfo"]['publishedDate']
     except KeyError:
@@ -63,6 +81,12 @@ def get_published_date(json):
 
 
 def get_authors(json):
+    """
+    Parses the book authors from the json object.
+
+    :param json: A json object, pulled from Google.
+    :return: The author a string, which is blank of there is an error.
+    """
     try:
         return get_author_string(json.json()["items"][0]["volumeInfo"]['authors'])
     except KeyError:
@@ -70,6 +94,12 @@ def get_authors(json):
 
 
 def get_isbn(json, isbn):
+    """
+    Parses the book isbn_10 and isbn_13 from the json object.
+
+    :param json: A json object, pulled from Google.
+    :return: A tuple is isbn numbers (isbn_10, isbn_13). If there is an error in either, the field is returned blank.
+    """
     isbn_10 = ""
     isbn_13 = ""
 
@@ -90,6 +120,12 @@ def get_isbn(json, isbn):
 
 
 def get_book(isbn):
+    """
+    Uses Google book api to look up book information using isbn (10 or 13) and return a book object.
+
+    :param isbn: an ISBN number (10 or 13)
+    :return: a book object based on the ISBN number
+    """
     # retrieve book
     full_url = GOOGLE_URL + str(isbn)
     raw_book = requests.get(full_url)
@@ -113,10 +149,10 @@ def get_book(isbn):
 
 
 class LibraryModel:
+
     """
     A class that represents a model to store library books.
     """
-
     def __init__(self):
         """
         Constructor for the library model.

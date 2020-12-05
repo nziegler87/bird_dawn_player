@@ -24,3 +24,12 @@ class Book:
     def to_dict(self):
         return {"title": self.title, "subtitle": self.subtitle, "authors": self.authors,
                 "published": self.published, "isbn_10": self.isbn_10, "isbn_13": self.isbn_13}
+
+    def __str__(self):
+        return "Title: " + self.title + "\nSubtitle: " + self.subtitle + "\nAuthors: " \
+               + self.authors + "\nDate Published: " + self.published + "\nISBN 10: " + self.isbn_10 \
+               + "\nISBN 13: " + self.isbn_13
+
+    def is_empty(self):
+        return self.title == "" and self.subtitle == "" and self.authors == "" and self.isbn_10 == "" \
+               and self.isbn_13 == "" and self.published == ""
