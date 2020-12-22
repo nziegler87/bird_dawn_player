@@ -3,7 +3,7 @@ from django.template.defaultfilters import slugify
 import factory
 import factory.fuzzy
 
-from everycheese.cheeses.models import Cheese
+from ..models import Cheese
 
 class CheeseFactory(factory.django.DjangoModelFactory):
     name = factory.fuzzy.FuzzyText()
@@ -12,6 +12,8 @@ class CheeseFactory(factory.django.DjangoModelFactory):
     firmness = factory.fuzzy.FuzzyChoice(
         [x[0] for x in Cheese.Firmness.choices]
     )
+    country_of_origin = factory.Faker('country_code')
+
 
     class Meta:
         model = Cheese
