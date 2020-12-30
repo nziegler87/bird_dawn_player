@@ -1,0 +1,13 @@
+<h1>Welcome to the Mechancial and Industrial Engineering Mock Interview Website</h1>
+
+<p></p>{{ my_statement }}</p>
+
+{% for person in users %}
+    <p><b>{{ person.first_name}} {{ person.last_name }}</b><br>{{ person.email}}<br>{{ person.major }}
+        <br>Are they all booked up? {{ person.is_booked }} </p>
+    <ul>
+    {% for linked_person in person.linked_persons.all %}
+        <p>{{ linked_person.first_name }} {{ linked_person.last_name }}</p>
+    {% endfor %}
+    </ul>
+{% endfor %}
