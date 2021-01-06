@@ -1,6 +1,6 @@
 package View;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
@@ -13,26 +13,40 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
     private final int actionBarHeight= 25;
 
     public BirdSoundViewImpl() {
-        super();
 
+        // basic settings
+        super();
         this.setTitle("Dawn Song PLayer");
         this.setSize(this.windowWidth,this.windowHeight);
         this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout(this.verticalGap, this.horizontalGap));
 
-        // add bird image
-        BirdImage birdImage = new BirdImage();
-        this.add(birdImage, BorderLayout.CENTER);
-
         // add status bar
         StatusBar statusBar = new StatusBar(this.windowWidth, this.actionBarHeight);
         this.add(statusBar, BorderLayout.PAGE_START);
 
+        // add instructions
+        InstructionPanel instructionPanel = new InstructionPanel(this.windowWidth / 3, this.windowHeight);
+        this.add(instructionPanel, BorderLayout.LINE_START);
+
+        // add control buttons
+        ControlButtons controlButtons = new ControlButtons(this.windowWidth / 3, this.windowHeight);
+        this.add(controlButtons, BorderLayout.CENTER);
 
 
+
+
+
+        // add bird image
+//        BirdImage birdImage = new BirdImage();
+//        this.add(birdImage, BorderLayout.CENTER);
+
+
+
+
+        // last steps
 //        this.pack();
         this.setVisible(true);
-
     }
 }
