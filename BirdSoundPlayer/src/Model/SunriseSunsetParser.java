@@ -33,14 +33,24 @@ public class SunriseSunsetParser {
         }
     }
 
+    /**
+     * Uses the parsed data to set the sunrise parameter, a ZonedDateTime object.
+     */
     private void setSunrise() {
         String temp_sunrise = time_data.get("sunrise");
         this.sunrise = ZonedDateTime.parse(temp_sunrise, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     }
 
+    /**
+     * Returns the parsed ZonedDateTime object.
+     *
+     * @return the parsed ZoneDateTime object.
+     * @throws IllegalStateException if the sunrise parameter is still null.
+     */
     public ZonedDateTime getSunrise() throws IllegalStateException {
         if (this.sunrise == null) {
-            throw new IllegalStateException("Sunrise data not parsed. First parse the provided Json object and set sunrise.");
+            throw new IllegalStateException("Sunrise data not parsed. First parse the provided Json object and set" +
+                    " sunrise.");
         }
         return this.sunrise;
     }

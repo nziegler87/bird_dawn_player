@@ -1,6 +1,5 @@
 package Model;
 
-
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
@@ -12,8 +11,6 @@ import java.net.http.HttpResponse;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.zone.ZoneRulesException;
-
-// many methods copied from https://www.geeksforgeeks.org/play-audio-file-using-java/
 
 public class BirdSoundModelImpl implements IBirdSoundModel {
     private Clip clip;
@@ -27,8 +24,16 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     private int soundDurationMinute;
 
     public BirdSoundModelImpl() {
+        // at this point, constructor is empty
     }
 
+    /**
+     * Loads an audio file (only AIFC, AIFF, AU, SND and WAVE formats are supported) to be played.
+     *
+     * @param filePath filepath to an AIFC, AIFF, AU, SND and WAVE file, a string.
+     *
+     * @throws IllegalStateException if there is a problem opening the audio file.
+     */
     @Override
     public void loadFile(String filePath) throws IllegalStateException {
 
@@ -56,91 +61,75 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
             this.clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
+    /**
+     * Manually set the start time. Hour should be in 24hr time.
+     *
+     * @param hour the sunrise hour, an int, that is greater than or equal to 0 and less than 24.
+     * @param minute the sunrise minute, an int, that is greater than or equal to 0 and less than 60.
+     *
+     * @throws IllegalArgumentException if hour or minute values are less than zero, if hour value is greater than 24,
+     *                                  and if minute value is greater than 60.
+     */
     @Override
     public void manuallySetSunrise(int hour, int minute) throws IllegalArgumentException {
-        if (hour < 0 || minute < 0) {
-            throw new IllegalArgumentException("Hour and minute values must be greater than 0.");
-        }
+        this.checkValidHourTime(hour, minute);
 
         LocalDateTime currentDateTime = LocalDateTime.now();
         this.sunrise = ZonedDateTime.of(currentDateTime.getYear(), currentDateTime.getMonthValue(),
                 currentDateTime.getDayOfMonth(), hour, minute, 0, 0, ZoneId.systemDefault());
     }
 
-
+    /**
+     * Set length of time that sound should play after the start time.
+     *
+     * @param hour the number of hours the sound should play, a double.
+     * @param minute the number of minutes the sound should play, a double.
+     *
+     * @throws IllegalArgumentException if hour or minute values are less than zero, if hour value is greater than 24,
+     *                                  and if minute value is greater than 60.
+     */
     @Override
     public void setSoundDuration(int hour, int minute) throws IllegalArgumentException {
-        if (hour < 0 || minute < 0) {
-            throw new IllegalArgumentException("Hour and minute values must be greater than 0.");
-        }
+        this.checkValidHourTime(hour, minute);
 
         this.soundDurationHour = hour;
         this.soundDurationMinute = minute;
     }
 
-    @Override
-    public void play() {
-        this.clip.start();
-        this.status = AudioControls.PLAY;
-        while (true) {}
-    }
-
-    @Override
-    public void pause() {
-        if (this.status == AudioControls.PAUSE) {
-            System.out.println("audio is already paused");
-            return;
-        } this.currentFrame = this.clip.getMicrosecondPosition();
-        this.clip.stop();
-        this.status = AudioControls.PAUSE;
-    }
-
-    @Override
-    public void resume() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        if (this.status == AudioControls.PLAY) {
-            System.out.println("Audio is already "+ "being played");
-            return;
+    /**
+     * Checks to make sure that hour and int params are valid.
+     *
+     * @param hour an hour, an int, that is greater than or equal to 0 and less than 24.
+     * @param minute a minute, an int, that is greater than or equal to 0 and less than 60.
+     *
+     * @throws IllegalArgumentException if hour or minute values are less than zero, if hour value is greater than 24,
+     *                                  and if minute value is greater than 60.
+     */
+    private void checkValidHourTime(int hour, int minute) throws IllegalStateException {
+        if (hour < 0 || minute < 0) {
+            throw new IllegalArgumentException("Hour and minute values must be greater than 0.");
         }
-        this.clip.close();
-        resetAudioStream();
-        this.clip.setMicrosecondPosition(this.currentFrame);
-        this.play();
+
+        if (hour > 24 || minute > 60) {
+            throw new IllegalArgumentException("Hour and minute values must be less than 24 or 60.");
+        }
     }
 
-    @Override
-    public void restart() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
-        this.clip.stop();
-        this.clip.close();
-        this.resetAudioStream();
-        this.currentFrame = 0L;
-        this.clip.setMicrosecondPosition(0);
-        this.play();
-    }
-
-    @Override
-    public void stop() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        this.currentFrame = 0L;
-        this.clip.stop();
-        this.clip.close();
-    }
-
-    @Override
-    public void resetAudioStream() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        this.audioInputStream = AudioSystem.getAudioInputStream(new File(this.filePath).getAbsoluteFile());
-        this.clip.open(this.audioInputStream);
-        this.clip.loop(Clip.LOOP_CONTINUOUSLY);
-    }
-
-
+    /**
+     * Automatically sets sunrise when passed a given longitude and latitude.
+     *
+     * @param latitude latitude of the location, a double
+     * @param longitude longitude of the location, a double.
+     */
     @Override
     public void automaticallySetSunrise(double latitude, double longitude) throws IllegalStateException {
 
         String url = "https://api.sunrise-sunset.org/json?lat=" + latitude + "&lng=" + longitude + "8&formatted=0";
         // create a client
-        var client = HttpClient.newHttpClient();
+        HttpClient client = HttpClient.newHttpClient();
 
         // create a request
-        var request = HttpRequest.newBuilder(URI.create(url)).build();
+        HttpRequest request = HttpRequest.newBuilder(URI.create(url)).build();
 
         // use the client to send the request
         try {
@@ -151,7 +140,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
         }
     }
 
-    public ZonedDateTime getSunrise() {
+    public ZonedDateTime getSunrise() throws IllegalStateException {
         if (this.sunrise == null) {
             throw new IllegalStateException("Sunrise data needs to be automatically set or manually entered.");
         }
@@ -159,6 +148,12 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
         return this.sunrise;
     }
 
+    /**
+     * Returns a formatted version of the sunrise object as HH:MM:SS AM/PM based on a given time zone ID.
+     *
+     * @param timeZoneID a time zone ID, a string: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+     * @return a formatted version of the sunrise object as HH:MM:SS AM/PM based on the given time zone ID
+     */
     @Override
     public String printLocalTime(String timeZoneID) {
         try {
@@ -171,5 +166,103 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
         } catch (ZoneRulesException e) {
             throw new IllegalStateException("Unknown time-zone ID.");
         }
+    }
+
+    /**
+     * Plays audio clip.
+     */
+    @Override
+    public void play() {
+        this.clip.start();
+        this.status = AudioControls.PLAY;
+        while (true) {}
+    }
+
+    /**
+     * Pauses audio clip.
+     *
+     * @throws IllegalStateException if audio file is already playing.
+     */
+    @Override
+    public void pause() throws IllegalStateException {
+        if (this.status == AudioControls.PAUSE) {
+            throw new IllegalStateException("Audio is already paused.");
+        } this.currentFrame = this.clip.getMicrosecondPosition();
+        this.clip.stop();
+        this.status = AudioControls.PAUSE;
+    }
+
+    /**
+     * Resumes audio clip.
+     *
+     * @throws IllegalStateException if audio clip is already being played.
+     */
+    @Override
+    public void resume() throws IllegalStateException {
+        if (this.status == AudioControls.PLAY) {
+            throw new IllegalStateException("Audio is already being played.");
+        }
+        this.clip.close();
+
+        try {
+            this.resetAudioStream();
+        } catch (IllegalStateException e) {
+            throw new IllegalStateException("Problem resuming audio file.");
+        }
+
+        this.clip.setMicrosecondPosition(this.currentFrame);
+        this.play();
+    }
+
+    /**
+     * Restarts audio clip.
+     *
+     * @throws IllegalStateException if there is a problem restarting the audio clip.
+     */
+    @Override
+    public void restart() throws IllegalStateException {
+        this.clip.stop();
+        this.clip.close();
+        try {
+            this.resetAudioStream();
+        } catch (IllegalStateException e) {
+            throw new IllegalStateException("Problem restarting audio file.");
+        }
+        this.currentFrame = 0L;
+        this.clip.setMicrosecondPosition(0);
+        this.play();
+    }
+
+    /**
+     * Stops audio clip.
+     *
+     * @throws IllegalStateException if there is a problem stopping the audio clip.
+     */
+    @Override
+    public void stop() throws IllegalStateException{
+        this.currentFrame = 0L;
+        this.clip.stop();
+        this.clip.close();
+    }
+
+    /**
+     * Resets audio stream.
+     *
+     * @throws IllegalStateException if there is an error reseting the audio stream.
+     */
+    private void resetAudioStream() throws IllegalStateException {
+        try {
+            this.audioInputStream = AudioSystem.getAudioInputStream(new File(this.filePath).getAbsoluteFile());
+        } catch (UnsupportedAudioFileException | IOException e) {
+            throw new IllegalStateException("Problem restarting audio stream.");
+        }
+
+        try {
+            this.clip.open(this.audioInputStream);
+        } catch ( IOException | LineUnavailableException e) {
+            throw new IllegalStateException("Problem restarting audio stream.");
+        }
+
+        this.clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 }

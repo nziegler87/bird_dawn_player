@@ -1,9 +1,6 @@
 package Controller;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.IOException;
-import java.net.URISyntaxException;
+
 
 import Model.IBirdSoundModel;
 
@@ -15,10 +12,11 @@ public class BirdSoundControllerImpl implements IBirdSoundController {
     }
 
     @Override
-    public void go() throws UnsupportedAudioFileException, IOException, LineUnavailableException, URISyntaxException, InterruptedException {
-//        this.birdSoundModel.loadFile("./AudioClips/dawn_song.wav");
+    public void go() throws IllegalStateException {
+
+        this.birdSoundModel.loadFile("./AudioClips/dawn_song.wav");
         this.birdSoundModel.automaticallySetSunrise(40.5334, -77.3855);
         System.out.println(this.birdSoundModel.printLocalTime("America/New_York"));
-//        this.birdSoundModel.playSound();
+        this.birdSoundModel.play();
     }
 }
