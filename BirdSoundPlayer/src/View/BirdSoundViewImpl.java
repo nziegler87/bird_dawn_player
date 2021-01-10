@@ -2,6 +2,7 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.concurrent.TimeUnit;
 
 
@@ -12,12 +13,14 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
     private final int horizontalGap = 5;
     private final int actionBarHeight= 25;
 
+    ControlButtons controlButtons;
+
     public BirdSoundViewImpl() {
 
         // basic settings
         super();
         this.setTitle("Dawn Song PLayer");
-        this.setSize(this.windowWidth,this.windowHeight);
+        this.setSize(this.windowWidth, this.windowHeight);
         this.setResizable(false);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout(this.verticalGap, this.horizontalGap));
@@ -31,22 +34,23 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
         this.add(instructionPanel, BorderLayout.LINE_START);
 
         // add control buttons
-        ControlButtons controlButtons = new ControlButtons(this.windowWidth / 3, this.windowHeight);
+        this.controlButtons = new ControlButtons(this.windowWidth / 3, this.windowHeight);
         this.add(controlButtons, BorderLayout.CENTER);
 
-
-
-
-
-        // add bird image
-//        BirdImage birdImage = new BirdImage();
-//        this.add(birdImage, BorderLayout.CENTER);
-
-
-
-
-        // last steps
-//        this.pack();
         this.setVisible(true);
+    }
+
+    public void toggleGoButton() {
+        this.controlButtons.enableAudioControlButtons();
+    }
+
+    @Override
+    public void togglePlayControls() {
+        this.controlButtons.enableStopButton();
+    }
+
+    @Override
+    public void setListener(ActionListener listener) {
+        this.controlButtons.setListener(listener);
     }
 }

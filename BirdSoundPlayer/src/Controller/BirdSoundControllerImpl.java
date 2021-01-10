@@ -2,28 +2,32 @@ package Controller;
 
 
 import Model.IBirdSoundModel;
+import View.IBirdSoundView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class BirdSoundControllerImpl implements IBirdSoundController, ActionListener {
-    private IBirdSoundModel birdSoundModel;
+    private IBirdSoundModel model;
+    private IBirdSoundView view;
 
-    public BirdSoundControllerImpl(IBirdSoundModel birdSoundModel) {
-        this.birdSoundModel = birdSoundModel;
+    public BirdSoundControllerImpl(IBirdSoundModel model, IBirdSoundView view) {
+        this.model = model;
+        this.view = view;
+        this.view.setListener(this);
+
     }
 
     @Override
     public void go() throws IllegalStateException {
 
-        this.birdSoundModel.loadFile("./AudioClips/dawn_song.wav");
-        this.birdSoundModel.automaticallySetSunrise(40.5334, -77.3855);
-        System.out.println(this.birdSoundModel.printLocalTime("America/New_York"));
-        this.birdSoundModel.play();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        System.out.println(e.getActionCommand());
+        if (e.getActionCommand().equals("Load file")){
+            this.view.togglePlayControls();
+        }
     }
 }

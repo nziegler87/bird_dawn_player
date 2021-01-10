@@ -16,8 +16,8 @@ public class Main {
 
     public static void main(String [] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException, URISyntaxException, InterruptedException {
         IBirdSoundView view = new BirdSoundViewImpl();
-//        IBirdSoundModel model = new BirdSoundModelImpl();
-//        IBirdSoundController controller = new BirdSoundControllerImpl(model);
-//        controller.go();
+        IBirdSoundModel model = new BirdSoundModelImpl();
+        IBirdSoundController controller = new BirdSoundControllerImpl(model, view);
+        controller.go();
     }
 }
