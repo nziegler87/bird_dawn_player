@@ -22,6 +22,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     private ZonedDateTime sunrise;
     private int soundDurationHour;
     private int soundDurationMinute;
+    private boolean programReady;
 
     public BirdSoundModelImpl() {
         // at this point, constructor is empty
@@ -58,7 +59,8 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
             throw new IllegalStateException("Error opening line.");
         }
 
-            this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+        // commented this out because the file would start playing with this before it was selected
+//            this.clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     /**
@@ -155,10 +157,9 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
      * @return a formatted version of the sunrise object as HH:MM:SS AM/PM based on the given time zone ID
      */
     @Override
-    public String printLocalTime(String timeZoneID) {
+    public String printLocalTime(ZoneId timeZoneID) {
         try {
-            ZoneId timeZone = ZoneId.of(timeZoneID);
-            ZonedDateTime newDate = this.sunrise.withZoneSameInstant(timeZone);
+            ZonedDateTime newDate = this.sunrise.withZoneSameInstant(timeZoneID);
             String DATE_FORMAT = "hh:mm:ss a";
             DateTimeFormatter format = DateTimeFormatter.ofPattern(DATE_FORMAT);
             return format.format(newDate);
@@ -173,9 +174,16 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
      */
     @Override
     public void play() {
-        this.clip.start();
-        this.status = AudioControls.PLAY;
-        while (true) {}
+
+        if (this.status == AudioControls.STOP) {
+            this.status = AudioControls.PLAY;
+            this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+            this.restart();
+        } else {
+            this.status = AudioControls.PLAY;
+            this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+            this.clip.start();
+        }
     }
 
     /**
@@ -186,7 +194,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     @Override
     public void pause() throws IllegalStateException {
         if (this.status == AudioControls.PAUSE) {
-            throw new IllegalStateException("Audio is already paused.");
+            // do nothing
         } this.currentFrame = this.clip.getMicrosecondPosition();
         this.clip.stop();
         this.status = AudioControls.PAUSE;
@@ -200,7 +208,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     @Override
     public void resume() throws IllegalStateException {
         if (this.status == AudioControls.PLAY) {
-            throw new IllegalStateException("Audio is already being played.");
+            // do nothing;
         }
         this.clip.close();
 
@@ -211,6 +219,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
         }
 
         this.clip.setMicrosecondPosition(this.currentFrame);
+        this.status = AudioControls.PLAY;
         this.play();
     }
 
@@ -219,8 +228,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
      *
      * @throws IllegalStateException if there is a problem restarting the audio clip.
      */
-    @Override
-    public void restart() throws IllegalStateException {
+    private void restart() throws IllegalStateException {
         this.clip.stop();
         this.clip.close();
         try {
@@ -230,6 +238,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
         }
         this.currentFrame = 0L;
         this.clip.setMicrosecondPosition(0);
+        this.status = AudioControls.RESTART;
         this.play();
     }
 
@@ -243,6 +252,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
         this.currentFrame = 0L;
         this.clip.stop();
         this.clip.close();
+        this.status = AudioControls.STOP;
     }
 
     /**

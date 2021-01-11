@@ -1,4 +1,4 @@
-package Controller.ModelControls;
+package Controller.Commands;
 
 import Model.IBirdSoundModel;
 

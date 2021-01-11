@@ -1,5 +1,6 @@
 package Model;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 // audio file/clip handling based on code found here: https://www.geeksforgeeks.org/play-audio-file-using-java/
@@ -61,7 +62,7 @@ public interface IBirdSoundModel {
      * @param timeZoneId a time zone ID, a string: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
      * @return a formatted version of the sunrise object as HH:MM:SS AM/PM based on the given time zone ID
      */
-    String printLocalTime(String timeZoneId);
+    String printLocalTime(ZoneId timeZoneId);
 
     /**
      * Plays audio clip.
@@ -82,12 +83,12 @@ public interface IBirdSoundModel {
      */
     void resume() throws IllegalStateException;
 
-    /**
-     * Restarts audio clip.
-     *
-     * @throws IllegalStateException if there is a problem restarting the audio clip.
-     */
-    void restart() throws IllegalStateException;
+//    /**
+//     * Restarts audio clip.
+//     *
+//     * @throws IllegalStateException if there is a problem restarting the audio clip.
+//     */
+//    void restart() throws IllegalStateException;
 
     /**
      * Stops audio clip.
@@ -95,6 +96,4 @@ public interface IBirdSoundModel {
      * @throws IllegalStateException if there is a problem stopping the audio clip.
      */
     void stop() throws IllegalStateException;
-
-
 }

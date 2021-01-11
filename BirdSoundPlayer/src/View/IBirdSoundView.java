@@ -1,13 +1,26 @@
 package View;
 
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 public interface IBirdSoundView {
 
-    public void setListener(ActionListener listener);
+    void setListener(ActionListener listener);
 
-    public void toggleGoButton();
+    void toggleGoButton();
 
-    public void togglePlayControls();
+    void enablePlayControls();
+
+    void disablePlayControls();
+
+    String selectAudioFile();
+
+    void updateStatusMessage(String message, Color bgColor, Color fgColor);
+
+    Double getDoubleInput(String message);
+
+    Integer getIntegerInput(String message);
+
+    void displayPopUpMessage(String message);
 
     }

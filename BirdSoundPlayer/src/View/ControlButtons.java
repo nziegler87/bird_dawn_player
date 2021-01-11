@@ -121,6 +121,35 @@ public class ControlButtons extends JPanel {
     }
 
     /**
+     * Enables the play button.
+     */
+    public void enablePlayButton() {
+        this.playButton.setEnabled(true);
+    }
+
+    /**
+     * Disables the play button.
+     */
+    public void disablePlayButton() {
+        this.playButton.setEnabled(false);
+    }
+
+    /**
+     * Enables the pause button.
+     */
+    public void enablePauseButton() {
+        this.pauseButton.setEnabled(true);
+    }
+
+    /**
+     * Disables the pause button.
+     */
+    public void disablePauseButton() {
+        this.pauseButton.setEnabled(false);
+
+    }
+
+    /**
      * Enables the audio control buttons as a group
      */
     public void enableAudioControlButtons() {
