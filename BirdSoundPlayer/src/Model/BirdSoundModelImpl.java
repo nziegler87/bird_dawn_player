@@ -131,8 +131,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
      */
     @Override
     public void automaticallySetSunrise(double latitude, double longitude) throws IllegalStateException {
-
-        String url = "https://api.sunrise-sunset.org/json?lat=" + latitude + "&lng=" + longitude + "8&formatted=0";
+        String url = "https://api.sunrise-sunset.org/json?lat=" + latitude + "&lng=" + longitude + "&formatted=0";
         // create a client
         HttpClient client = HttpClient.newHttpClient();
 
@@ -145,7 +144,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
             this.sunrise = new SunriseSunsetParser(response.body()).getSunrise();
             this.sunriseSet = true;
         } catch (IOException | InterruptedException e) {
-            throw new IllegalStateException("Error sending request to sunrise-sunset api.");
+            throw new IllegalStateException("Error setting sunrise.");
         }
     }
 

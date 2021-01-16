@@ -13,7 +13,7 @@ public class SunriseSunsetParser {
     Map<String, String> time_data = new LinkedHashMap<>();
     List<String> timeFields = Arrays.asList("sunrise", "sunset", "solar_noon","day_length", "civil_twilight_begin",
             "civil_twilight_end", "nautical_twilight_begin", "nautical_twilight_end", "astronomical_twilight_begin",
-            "astronomical_twilight_end");
+            "astronomical_twilight_end", "status");
 
     public SunriseSunsetParser(String json) {
         this.JSONBody = json;
@@ -34,11 +34,24 @@ public class SunriseSunsetParser {
     }
 
     /**
+     * Checks to see if status message is INVALID_REQUEST.
+     *
+     * @return a boolean
+     */
+    private boolean checkStatus() {
+        return this.time_data.get("status").equals("INVALID_REQUEST");
+    }
+
+    /**
      * Uses the parsed data to set the sunrise parameter, a ZonedDateTime object.
      */
-    private void setSunrise() {
-        String temp_sunrise = time_data.get("sunrise");
-        this.sunrise = ZonedDateTime.parse(temp_sunrise, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+    private void setSunrise() throws IllegalStateException {
+        if (!this.checkStatus()) {
+            String temp_sunrise = time_data.get("sunrise");
+            this.sunrise = ZonedDateTime.parse(temp_sunrise, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        } else {
+            throw new IllegalStateException("Error setting sunrise");
+        }
     }
 
     /**

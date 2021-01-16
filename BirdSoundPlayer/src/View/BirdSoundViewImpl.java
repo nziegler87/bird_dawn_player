@@ -97,9 +97,9 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
     public Double getDoubleInput(String message) {
         String userInput = JOptionPane.showInputDialog(popUpWindow, message, "", JOptionPane.PLAIN_MESSAGE);
         if (userInput == null) {
+            System.out.println("User canceled");
             return 0.0;
-        }
-        else {
+        } else {
             return Double.parseDouble(userInput);
         }
     }
@@ -115,7 +115,7 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
     public Integer getIntegerInput(String message) {
         String userInput = JOptionPane.showInputDialog(popUpWindow, message, "", JOptionPane.PLAIN_MESSAGE);
         int userInteger = Integer.parseInt(userInput);
-        if (userInteger == JOptionPane.CANCEL_OPTION || userInteger == JOptionPane.CLOSED_OPTION) {
+        if (userInput.equals("")) {
             return 0;
         } else {
             return userInteger;

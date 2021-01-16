@@ -62,12 +62,12 @@ public class BirdSoundControllerImpl implements IBirdSoundController, ActionList
                 break;
 
             case "Automatically set sunrise":
-                double lat = 0;
+                double latitude = 0;
                 double longitude = 0;
 
                 while (true) {
-                    lat = this.view.getDoubleInput("Enter your latitude:");
-                    if (lat >= -90 && lat <= 90) {
+                    latitude = this.view.getDoubleInput("Enter your latitude:");
+                    if (latitude >= -90 && latitude <= 90) {
                         break;
                     } else {
                         this.view.displayPopUpMessage("Latitude value not valid. Try again.");
@@ -82,7 +82,7 @@ public class BirdSoundControllerImpl implements IBirdSoundController, ActionList
                         this.view.displayPopUpMessage("Longitude value not valid. Try again.");
                     }
                 }
-                this.model.automaticallySetSunrise(lat, longitude);
+                this.model.automaticallySetSunrise(latitude, longitude);
                 this.view.displayPopUpMessage("Sunrise set to " + this.model.returnLocalTime(ZoneId.systemDefault()) +
                         "\n\nIf this isn't correct, restart this process and confirm your latitude and longitude data.");
 
