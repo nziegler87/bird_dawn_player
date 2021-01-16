@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.ZoneId;
-import java.util.Objects;
 
 public class BirdSoundControllerImpl implements IBirdSoundController, ActionListener {
     private IBirdSoundModel model;
@@ -23,7 +22,12 @@ public class BirdSoundControllerImpl implements IBirdSoundController, ActionList
 
     @Override
     public void go() throws IllegalStateException {
+    }
 
+    private void checkReady() {
+        if (this.model.readyForStart()) {
+            this.view.enableGoButton();
+        }
     }
 
     @Override
@@ -43,6 +47,7 @@ public class BirdSoundControllerImpl implements IBirdSoundController, ActionList
                     this.model.loadFile(audioFileName);
                     this.view.enablePlayControls();
                 }
+                this.checkReady();
                 break;
             case "play":
                 this.model.play();
@@ -57,23 +62,82 @@ public class BirdSoundControllerImpl implements IBirdSoundController, ActionList
                 break;
 
             case "Automatically set sunrise":
-                double lat = this.view.getDoubleInput("Enter your latitude:");
-                double longitude = this.view.getDoubleInput("Enter your longitude:");
+                double lat = 0;
+                double longitude = 0;
+
+                while (true) {
+                    lat = this.view.getDoubleInput("Enter your latitude:");
+                    if (lat >= -90 && lat <= 90) {
+                        break;
+                    } else {
+                        this.view.displayPopUpMessage("Latitude value not valid. Try again.");
+                    }
+                }
+
+                while (true) {
+                    longitude = this.view.getDoubleInput("Enter your longitude:");
+                    if (longitude >= -180 && longitude <= 180) {
+                        break;
+                    } else {
+                        this.view.displayPopUpMessage("Longitude value not valid. Try again.");
+                    }
+                }
                 this.model.automaticallySetSunrise(lat, longitude);
-                this.view.displayPopUpMessage(this.model.printLocalTime(ZoneId.systemDefault()));
+                this.view.displayPopUpMessage("Sunrise set to " + this.model.returnLocalTime(ZoneId.systemDefault()) +
+                        "\n\nIf this isn't correct, restart this process and confirm your latitude and longitude data.");
+
+                this.view.enableSoundDuration();
                 break;
 
             case "Manually set sunrise":
-                int hour = this.view.getIntegerInput("Enter the hour of your sunrise:");
-                int min = this.view.getIntegerInput("Enter the minute of your sunrise:");
+                int hour = 0;
+                int min = 0;
+
+                while (true) {
+                    hour = this.view.getIntegerInput("Enter the hour of your sunrise:");
+                    if (hour >= 0 && hour <= 24) {
+                        break;
+                    } else {
+                        this.view.displayPopUpMessage("Invalid hour entry. It must be greater or equal to 0 and less " +
+                                "than or equal to 24");
+                    }
+                }
+                while (true) {
+                    min = this.view.getIntegerInput("Enter the minute of your sunrise:");
+                    if (min >= 0 && min <= 60) {
+                        break;
+                    } else {
+                        this.view.displayPopUpMessage("Invalid minute entry. It must be great or equal to 0 and less" +
+                                " or equal to 60.");
+                    }
+                }
                 this.model.manuallySetSunrise(hour, min);
+                this.view.displayPopUpMessage("Sunrise set to " + this.model.returnLocalTime(ZoneId.systemDefault()) +
+                        "\n\nIf this isn't correct, re-enter your sunrise information.");
+                this.view.enableSoundDuration();
                 break;
 
             case "Set sound duration":
-                hour = this.view.getIntegerInput("Enter how many hours the sound should play:");
-                min = this.view.getIntegerInput("Enter how many minutes the sound should play:");
-                this.model.setSoundDuration(hour, min);
-                break;
+                while (true) {
+                    hour = this.view.getIntegerInput("Enter how many hours the sound should play:");
+                    if (hour >= 0) {
+                        break;
+                    } else {
+                        this.view.displayPopUpMessage("Hour value must be greater or equal to 0. Try again.");
+                    }
+                }
+                while (true) {
+                    min = this.view.getIntegerInput("Enter how many minutes the sound should play:");
+                    if (min >= 0) {
+                        break;
+                    } else {
+                        this.view.displayPopUpMessage("Minute value must be greater or equal to 0. Try again.");
+                    }
+                    this.model.setSoundDuration(hour, min);
+                    this.view.enableGoButton();
+                    break;
+                }
         }
     }
 }
+

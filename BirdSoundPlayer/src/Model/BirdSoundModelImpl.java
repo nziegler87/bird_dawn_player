@@ -22,7 +22,9 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     private ZonedDateTime sunrise;
     private int soundDurationHour;
     private int soundDurationMinute;
-    private boolean programReady;
+    private boolean sunriseSet = false;
+    private boolean audioSet = false;
+    private boolean durationSet = false;
 
     public BirdSoundModelImpl() {
         // at this point, constructor is empty
@@ -55,6 +57,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
 
         try {
             this.clip.open(this.audioInputStream);
+            this.audioSet = true;
         } catch (LineUnavailableException | IOException IOE) {
             throw new IllegalStateException("Error opening line.");
         }
@@ -79,6 +82,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
         LocalDateTime currentDateTime = LocalDateTime.now();
         this.sunrise = ZonedDateTime.of(currentDateTime.getYear(), currentDateTime.getMonthValue(),
                 currentDateTime.getDayOfMonth(), hour, minute, 0, 0, ZoneId.systemDefault());
+        this.sunriseSet = true;
     }
 
     /**
@@ -87,15 +91,17 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
      * @param hour the number of hours the sound should play, a double.
      * @param minute the number of minutes the sound should play, a double.
      *
-     * @throws IllegalArgumentException if hour or minute values are less than zero, if hour value is greater than 24,
-     *                                  and if minute value is greater than 60.
+     * @throws IllegalArgumentException if hour or minute values are less than zero
      */
     @Override
     public void setSoundDuration(int hour, int minute) throws IllegalArgumentException {
-        this.checkValidHourTime(hour, minute);
+        if (hour < 0 || minute < 0) {
+            throw new IllegalArgumentException("Hour and minute values must be greater than 0");
+        }
 
         this.soundDurationHour = hour;
         this.soundDurationMinute = minute;
+        this.durationSet = true;
     }
 
     /**
@@ -137,6 +143,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             this.sunrise = new SunriseSunsetParser(response.body()).getSunrise();
+            this.sunriseSet = true;
         } catch (IOException | InterruptedException e) {
             throw new IllegalStateException("Error sending request to sunrise-sunset api.");
         }
@@ -157,7 +164,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
      * @return a formatted version of the sunrise object as HH:MM:SS AM/PM based on the given time zone ID
      */
     @Override
-    public String printLocalTime(ZoneId timeZoneID) {
+    public String returnLocalTime(ZoneId timeZoneID) {
         try {
             ZonedDateTime newDate = this.sunrise.withZoneSameInstant(timeZoneID);
             String DATE_FORMAT = "hh:mm:ss a";
@@ -175,7 +182,10 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     @Override
     public void play() {
 
-        if (this.status == AudioControls.STOP) {
+        if (this.status == AudioControls.PLAY) {
+            // do nothing
+        }
+        if (this.status == AudioControls.STOP || this.status == AudioControls.PAUSE) {
             this.status = AudioControls.PLAY;
             this.clip.loop(Clip.LOOP_CONTINUOUSLY);
             this.restart();
@@ -193,7 +203,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
      */
     @Override
     public void pause() throws IllegalStateException {
-        if (this.status == AudioControls.PAUSE) {
+        if (this.status == AudioControls.PAUSE || this.status == AudioControls.STOP) {
             // do nothing
         } this.currentFrame = this.clip.getMicrosecondPosition();
         this.clip.stop();
@@ -220,7 +230,8 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
 
         this.clip.setMicrosecondPosition(this.currentFrame);
         this.status = AudioControls.PLAY;
-        this.play();
+        this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+        this.clip.start();
     }
 
     /**
@@ -253,6 +264,16 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
         this.clip.stop();
         this.clip.close();
         this.status = AudioControls.STOP;
+    }
+
+    /**
+     * Returns true if audio file, sunrise, and sound duration are all set, otherwise false.
+     *
+     * @return Returns true if audio file, sunrise, and sound duration are all set, otherwise false.
+     */
+    @Override
+    public boolean readyForStart() {
+        return this.sunriseSet && this.durationSet && this.audioSet;
     }
 
     /**

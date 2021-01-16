@@ -51,6 +51,7 @@ public class ControlButtons extends JPanel {
         this.add(this.powerButton);
 
         // start with most buttons disabled
+        this.setSoundDuration.setEnabled(false);
         this.playButton.setEnabled(false);
         this.pauseButton.setEnabled(false);
         this.stopButton.setEnabled(false);
@@ -146,7 +147,10 @@ public class ControlButtons extends JPanel {
      */
     public void disablePauseButton() {
         this.pauseButton.setEnabled(false);
+    }
 
+    public void enableSoundDurationButton() {
+        this.setSoundDuration.setEnabled(true);
     }
 
     /**
