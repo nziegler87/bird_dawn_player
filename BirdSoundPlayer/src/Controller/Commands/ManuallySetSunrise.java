@@ -32,6 +32,6 @@ public class ManuallySetSunrise implements ICommand {
         model.manuallySetSunrise(hour, min);
         view.displayPopUpMessage("Sunrise set to " + model.returnLocalTime(ZoneId.systemDefault()) +
                 "\n\nIf this isn't correct, re-enter your sunrise information.");
-        view.enableSoundDuration();
+        view.enableStartOffsetButton();
     }
 }

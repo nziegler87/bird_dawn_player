@@ -28,6 +28,6 @@ public class SetStartOffset implements ICommand {
         model.setSoundDuration(hour, min);
         view.displayPopUpMessage("Your audio will play " + hour + " hour(s) and " + min +
                 " minute(s) before sunrise.\nThat is equivalent to " + model.getDuration() + " minute(s).");
-        view.enableGoButton();
+        view.enableSoundDuration();
     }
 }

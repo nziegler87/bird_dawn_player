@@ -32,7 +32,7 @@ public class AutomaticallySetSunrise implements ICommand {
             model.automaticallySetSunrise(latitude, longitude);
             view.displayPopUpMessage("Sunrise set to " + model.returnLocalTime(ZoneId.systemDefault()) +
                     "\n\nIf this isn't correct, restart this process and confirm your latitude and longitude data.");
-            view.enableSoundDuration();
+            view.enableStartOffsetButton();
         } catch (IllegalStateException ISE) {
             view.displayPopUpMessage("Error getting sunrise data. Try again or manually input sunrise.");
         }

@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 public class ControlButtons extends JPanel {
     JButton loadFile, automaticallySetSunrise, manuallySetSunrise, setSoundDuration, startOffsetButton,
-            playButton, pauseButton, stopButton, goButton, powerButton;
+            playAudioButton, pauseAudioButton, stopAudioButton, goButton, stopButton;
     Color backgroundColor = new Color(223, 216, 255);
 
     public ControlButtons(int width, int height) {
@@ -40,24 +40,24 @@ public class ControlButtons extends JPanel {
         this.startOffsetButton.setEnabled(false);
 
         // play button
-        this.playButton = this.setUpImageButton("./images/play_resized.png", "play sound");
-        this.add(this.playButton);
+        this.playAudioButton = this.setUpImageButton("./images/play_resized.png", "play sound");
+        this.add(this.playAudioButton);
 
         // pause button
-        this.pauseButton = this.setUpImageButton("./images/pause_resized.png", "pause sound");
-        this.add(this.pauseButton);
+        this.pauseAudioButton = this.setUpImageButton("./images/pause_resized.png", "pause sound");
+        this.add(this.pauseAudioButton);
 
         // stop button
-        this.stopButton = this.setUpImageButton("./images/stop_resized.png", "stop sound");
-        this.add(this.stopButton);
+        this.stopAudioButton = this.setUpImageButton("./images/stop_resized.png", "stop sound");
+        this.add(this.stopAudioButton);
 
         // go button
         this.goButton = this.setUpImageButton("./images/go_resized.png", "start");
         this.add(this.goButton);
 
         // power button
-        this.powerButton = this.setUpImageButton("./images/power_resized.png", "stop");
-        this.add(this.powerButton);
+        this.stopButton = this.setUpImageButton("./images/power_resized.png", "stop");
+        this.add(this.stopButton);
 
         this.setVisible(true);
     }
@@ -100,105 +100,106 @@ public class ControlButtons extends JPanel {
         this.automaticallySetSunrise.addActionListener(listener);
         this.manuallySetSunrise.addActionListener(listener);
         this.setSoundDuration.addActionListener(listener);
-        this.playButton.addActionListener(listener);
-        this.pauseButton.addActionListener(listener);
-        this.stopButton.addActionListener(listener);
+        this.playAudioButton.addActionListener(listener);
+        this.pauseAudioButton.addActionListener(listener);
+        this.stopAudioButton.addActionListener(listener);
         this.goButton.addActionListener(listener);
-        this.powerButton.addActionListener(listener);
+        this.stopButton.addActionListener(listener);
         this.startOffsetButton.addActionListener(listener);
     }
 
-    /**
-     * Disables the go button.
-     */
-    public void disableGoButton() {
-        this.goButton.setEnabled(false);
-    }
-
-    /**
-     * Enables the go button.
-     */
-    public void enableGoButton() {
-        this.goButton.setEnabled(true);
-    }
-
-    /**
-     * Enables the stop button.
-     */
-    public void enableStopButton() {
-        this.stopButton.setEnabled(true);
-    }
-
-    /**
-     * Disables the stop button.
-     */
-    public void disableStopButton() {
-        this.stopButton.setEnabled(false);
-    }
-
-    /**
-     * Enables the play button.
-     */
-    public void enablePlayButton() {
-        this.playButton.setEnabled(true);
-    }
-
-    /**
-     * Disables the play button.
-     */
-    public void disablePlayButton() {
-        this.playButton.setEnabled(false);
-    }
-
-    /**
-     * Enables the pause button.
-     */
-    public void enablePauseButton() {
-        this.pauseButton.setEnabled(true);
-    }
-
-    /**
-     * Disables the pause button.
-     */
-    public void disablePauseButton() {
-        this.pauseButton.setEnabled(false);
-    }
-
-    public void enableSoundDurationButton() {
-        this.setSoundDuration.setEnabled(true);
-    }
-
-    /**
-     * Enables the audio control buttons as a group
-     */
-    public void enableAudioControlButtons() {
-        this.playButton.setEnabled(true);
-        this.pauseButton.setEnabled(true);
-        this.stopButton.setEnabled(true);
-    }
-
-    /**
-     * Disables the audio control buttons as a group
-     */
-    public void disableAudioControlButtons() {
-        this.playButton.setEnabled(false);
-        this.pauseButton.setEnabled(false);
-        this.stopButton.setEnabled(false);
-    }
-
-    /**
-     * Method to enable the set offset button.
-     */
-    public void enableStartOffsetButton() {
-        this.startOffsetButton.setEnabled(true);
-    }
-
-    /**
-     * Method to disable the set offset button.
-     */
-    public void disableStartOffsetButton() {
-        this.startOffsetButton.setEnabled(false);
-    }
+    //TODO: If commenting these out has no impact, just delete
+//    /**
+//     * Disables the go button.
+//     */
+//    public void disableGoButton() {
+//        this.goButton.setEnabled(false);
+//    }
+//
+//    /**
+//     * Enables the go button.
+//     */
+//    public void enableGoButton() {
+//        this.goButton.setEnabled(true);
+//    }
+//
+//    /**
+//     * Enables the stop button.
+//     */
+//    public void enableStopButton() {
+//        this.stopButton.setEnabled(true);
+//    }
+//
+//    /**
+//     * Disables the stop button.
+//     */
+//    public void disableStopButton() {
+//        this.stopButton.setEnabled(false);
+//    }
+//
+//    /**
+//     * Enables the play button.
+//     */
+//    public void enablePlayButton() {
+//        this.playButton.setEnabled(true);
+//    }
+//
+//    /**
+//     * Disables the play button.
+//     */
+//    public void disablePlayButton() {
+//        this.playButton.setEnabled(false);
+//    }
+//
+//    /**
+//     * Enables the pause button.
+//     */
+//    public void enablePauseButton() {
+//        this.pauseButton.setEnabled(true);
+//    }
+//
+//    /**
+//     * Disables the pause button.
+//     */
+//    public void disablePauseButton() {
+//        this.pauseButton.setEnabled(false);
+//    }
+//
+//    public void enableSoundDurationButton() {
+//        this.setSoundDuration.setEnabled(true);
+//    }
+//
+//    /**
+//     * Enables the audio control buttons as a group
+//     */
+//    public void enableAudioControlButtons() {
+//        this.playButton.setEnabled(true);
+//        this.pauseButton.setEnabled(true);
+//        this.stopButton.setEnabled(true);
+//    }
+//
+//    /**
+//     * Disables the audio control buttons as a group
+//     */
+//    public void disableAudioControlButtons() {
+//        this.playButton.setEnabled(false);
+//        this.pauseButton.setEnabled(false);
+//        this.stopButton.setEnabled(false);
+//    }
+//
+//    /**
+//     * Method to enable the set offset button.
+//     */
+//    public void enableStartOffsetButton() {
+//        this.startOffsetButton.setEnabled(true);
+//    }
+//
+//    /**
+//     * Method to disable the set offset button.
+//     */
+//    public void disableStartOffsetButton() {
+//        this.startOffsetButton.setEnabled(false);
+//    }
 
 
 }

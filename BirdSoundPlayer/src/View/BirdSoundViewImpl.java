@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.concurrent.TimeUnit;
 
 
 public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
@@ -213,9 +212,9 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
      */
     @Override
     public void enablePlayControls() {
-        this.controlButtons.playButton.setEnabled(true);
-        this.controlButtons.pauseButton.setEnabled(true);
-        this.controlButtons.stopButton.setEnabled(true);
+        this.controlButtons.playAudioButton.setEnabled(true);
+        this.controlButtons.pauseAudioButton.setEnabled(true);
+        this.controlButtons.stopAudioButton.setEnabled(true);
     }
 
     /**
@@ -223,9 +222,9 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
      */
     @Override
     public void disablePlayControls() {
-        this.controlButtons.playButton.setEnabled(false);
-        this.controlButtons.pauseButton.setEnabled(false);
-        this.controlButtons.stopButton.setEnabled(false);
+        this.controlButtons.playAudioButton.setEnabled(false);
+        this.controlButtons.pauseAudioButton.setEnabled(false);
+        this.controlButtons.stopAudioButton.setEnabled(false);
     }
 
     /**

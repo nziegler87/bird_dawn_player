@@ -27,6 +27,6 @@ public class SetSoundDuration implements ICommand {
         model.setSoundDuration(hour, min);
         view.displayPopUpMessage("Your audio will play for " + hour + " hour(s) and " + min +
                 " minute(s).\nThat is equivalent to " + model.getDuration() + " minute(s).");
-        view.enableStartOffsetButton();
+        view.enableGoButton();
     }
 }
