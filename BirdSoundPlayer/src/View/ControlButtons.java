@@ -16,6 +16,7 @@ public class ControlButtons extends JPanel {
 
         // load file button
         this.loadFile = new JButton("Load file");
+        this.loadFile.setActionCommand("load file");
         this.add(this.loadFile);
 
         // auto get sunrise button
@@ -39,23 +40,23 @@ public class ControlButtons extends JPanel {
         this.startOffsetButton.setEnabled(false);
 
         // play button
-        this.playButton = this.setUpImageButton("./images/play_resized.png", "play");
+        this.playButton = this.setUpImageButton("./images/play_resized.png", "play sound");
         this.add(this.playButton);
 
         // pause button
-        this.pauseButton = this.setUpImageButton("./images/pause_resized.png", "pause");
+        this.pauseButton = this.setUpImageButton("./images/pause_resized.png", "pause sound");
         this.add(this.pauseButton);
 
         // stop button
-        this.stopButton = this.setUpImageButton("./images/stop_resized.png", "stop");
+        this.stopButton = this.setUpImageButton("./images/stop_resized.png", "stop sound");
         this.add(this.stopButton);
 
         // go button
-        this.goButton = this.setUpImageButton("./images/go_resized.png", "go");
+        this.goButton = this.setUpImageButton("./images/go_resized.png", "start");
         this.add(this.goButton);
 
         // power button
-        this.powerButton = this.setUpImageButton("./images/power_resized.png", "powerOff");
+        this.powerButton = this.setUpImageButton("./images/power_resized.png", "stop");
         this.add(this.powerButton);
 
         this.setVisible(true);
