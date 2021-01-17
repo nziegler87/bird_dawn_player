@@ -95,12 +95,18 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
      */
     @Override
     public Double getDoubleInput(String message) {
-        String userInput = JOptionPane.showInputDialog(popUpWindow, message, "", JOptionPane.PLAIN_MESSAGE);
-        if (userInput == null) {
-            System.out.println("User canceled");
-            return 0.0;
-        } else {
-            return Double.parseDouble(userInput);
+        while (true) {
+            String userInput = JOptionPane.showInputDialog(popUpWindow, message, "", JOptionPane.PLAIN_MESSAGE);
+            if (userInput == null) {
+                System.out.println("User canceled");
+                return 0.0;
+            } else {
+                try {
+                    return Double.parseDouble(userInput);
+                } catch (NumberFormatException NFE2) {
+                    this.displayPopUpMessage("Input must be a number.");
+                }
+            }
         }
     }
 
@@ -113,12 +119,17 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
      */
     @Override
     public Integer getIntegerInput(String message) {
-        String userInput = JOptionPane.showInputDialog(popUpWindow, message, "", JOptionPane.PLAIN_MESSAGE);
-        int userInteger = Integer.parseInt(userInput);
-        if (userInput.equals("")) {
-            return 0;
-        } else {
-            return userInteger;
+        while (true) {
+            String userInput = JOptionPane.showInputDialog(popUpWindow, message, "", JOptionPane.PLAIN_MESSAGE);
+            if (userInput == null) {
+                return 0;
+            } else {
+                try {
+                    return Integer.parseInt(userInput);
+                } catch (NumberFormatException NFE) {
+                    this.displayPopUpMessage("Input must be a number.");
+                }
+            }
         }
     }
 
@@ -136,7 +147,7 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
      */
     @Override
     public void enableGoButton() {
-        this.controlButtons.enableGoButton();
+        this.controlButtons.goButton.setEnabled(true);
     }
 
     /**
@@ -144,7 +155,7 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
      */
     @Override
     public void disableGoButton() {
-        this.controlButtons.disableGoButton();
+        this.controlButtons.goButton.setEnabled(false);
     }
 
     /**
@@ -152,7 +163,7 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
      */
     @Override
     public void enableStopButton() {
-        this.controlButtons.enableStopButton();
+        this.controlButtons.stopButton.setEnabled(true);
     }
 
     /**
@@ -160,7 +171,7 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
      */
     @Override
     public void disableStopButton() {
-        this.controlButtons.disableStopButton();
+        this.controlButtons.stopButton.setEnabled(false);
     }
 
     /**
@@ -168,7 +179,32 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
      */
     @Override
     public void enableSoundDuration() {
-        this.controlButtons.enableSoundDurationButton();
+        this.controlButtons.setSoundDuration.setEnabled(true);
+    }
+
+    /**
+     * Method to enable the set offset button.
+     */
+    @Override
+    public void enableStartOffsetButton() {
+        this.controlButtons.startOffsetButton.setEnabled(true);
+    }
+
+    /**
+     * Method to disable the set offset button.
+     */
+    @Override
+    public void disableStartOffsetButton() {
+        this.controlButtons.startOffsetButton.setEnabled(false);
+    }
+
+    /**
+     * Method to enable the sunrise buttons.
+     */
+    @Override
+    public void enableSunriseButtons() {
+        this.controlButtons.manuallySetSunrise.setEnabled(true);
+        this.controlButtons.automaticallySetSunrise.setEnabled(true);
     }
 
 
@@ -177,9 +213,9 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
      */
     @Override
     public void enablePlayControls() {
-        this.controlButtons.enablePlayButton();
-        this.controlButtons.enablePauseButton();
-        this.controlButtons.enableStopButton();
+        this.controlButtons.playButton.setEnabled(true);
+        this.controlButtons.pauseButton.setEnabled(true);
+        this.controlButtons.stopButton.setEnabled(true);
     }
 
     /**
@@ -187,9 +223,9 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
      */
     @Override
     public void disablePlayControls() {
-        this.controlButtons.disableStopButton();
-        this.controlButtons.disablePauseButton();
-        this.controlButtons.disablePlayButton();
+        this.controlButtons.playButton.setEnabled(false);
+        this.controlButtons.pauseButton.setEnabled(false);
+        this.controlButtons.stopButton.setEnabled(false);
     }
 
     /**

@@ -88,4 +88,19 @@ public interface IBirdSoundView {
      * Method to enable the sound duration button.
      */
     void enableSoundDuration();
-    }
+
+    /**
+     * Method to enable the set offset button.
+     */
+    void enableStartOffsetButton();
+
+    /**
+     * Method to disable the set offset button.
+     */
+    void disableStartOffsetButton();
+
+    /**
+     * Method to enable the sunrise buttons.
+     */
+    void enableSunriseButtons();
+}

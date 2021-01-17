@@ -13,4 +13,11 @@ class BirdSoundModelImplTest {
         Assertions.assertThrows(IllegalStateException.class, () ->{model.automaticallySetSunrise(0,0);});
     }
 
+    @Test
+    public void testCheckDuration() {
+        IBirdSoundModel model = new BirdSoundModelImpl();
+        model.setSoundDuration(2, 62);
+
+    }
+
 }

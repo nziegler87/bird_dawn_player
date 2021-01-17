@@ -20,8 +20,8 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     private AudioControls status;
     private long currentFrame;
     private ZonedDateTime sunrise;
-    private int soundDurationHour;
     private int soundDurationMinute;
+    private int startOffset;
     private boolean sunriseSet = false;
     private boolean audioSet = false;
     private boolean durationSet = false;
@@ -99,10 +99,9 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
             throw new IllegalArgumentException("Hour and minute values must be greater than 0");
         }
 
-        this.soundDurationHour = hour;
-        this.soundDurationMinute = minute;
-        this.durationSet = true;
+        this.soundDurationMinute = hour * 60 + minute;
     }
+
 
     /**
      * Checks to make sure that hour and int params are valid.
@@ -273,6 +272,33 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     @Override
     public boolean readyForStart() {
         return this.sunriseSet && this.durationSet && this.audioSet;
+    }
+
+    /**
+     * Returns how long the sound should play, an int, in minutes.
+     *
+     * @return an int of how long the sound should play, in minutes.
+     */
+    @Override
+    public int getDuration() {
+        return this.soundDurationMinute;
+    }
+
+    /**
+     * Method to set how early the song should start playing before the given sunrise.
+     *
+     * @param hour   the number of hours before sunrise that the sound should start playing.
+     * @param minute the number of minutes before sunrise that the sound should start playing.
+     *
+     * @throws IllegalArgumentException if hour or minute values are less than zero
+     */
+    @Override
+    public void setStartOffset(int hour, int minute)  throws IllegalArgumentException {
+        if (hour < 0 || minute < 0) {
+            throw new IllegalArgumentException("Hour and minute values must be greater than 0");
+        }
+
+        this.startOffset = hour * 60 + minute;
     }
 
     /**

@@ -46,6 +46,7 @@ public class BirdSoundControllerImpl implements IBirdSoundController, ActionList
                             new Color(255, 255, 255));
                     this.model.loadFile(audioFileName);
                     this.view.enablePlayControls();
+                    this.view.enableSunriseButtons();
                 }
                 this.checkReady();
                 break;
@@ -82,11 +83,15 @@ public class BirdSoundControllerImpl implements IBirdSoundController, ActionList
                         this.view.displayPopUpMessage("Longitude value not valid. Try again.");
                     }
                 }
-                this.model.automaticallySetSunrise(latitude, longitude);
-                this.view.displayPopUpMessage("Sunrise set to " + this.model.returnLocalTime(ZoneId.systemDefault()) +
-                        "\n\nIf this isn't correct, restart this process and confirm your latitude and longitude data.");
-
-                this.view.enableSoundDuration();
+                try {
+                    this.model.automaticallySetSunrise(latitude, longitude);
+                    this.view.displayPopUpMessage("Sunrise set to " + this.model.returnLocalTime(ZoneId.systemDefault()) +
+                            "\n\nIf this isn't correct, restart this process and confirm your latitude and longitude data.");
+                    this.view.enableSoundDuration();
+                    break;
+                } catch (IllegalStateException ISE) {
+                    this.view.displayPopUpMessage("Error getting sunrise data. Try again or manually input sunrise.");
+                }
                 break;
 
             case "Manually set sunrise":
@@ -133,10 +138,38 @@ public class BirdSoundControllerImpl implements IBirdSoundController, ActionList
                     } else {
                         this.view.displayPopUpMessage("Minute value must be greater or equal to 0. Try again.");
                     }
-                    this.model.setSoundDuration(hour, min);
-                    this.view.enableGoButton();
-                    break;
                 }
+                this.model.setSoundDuration(hour, min);
+                this.view.displayPopUpMessage("Your audio will play for " + hour + " hour(s) and " + min +
+                        " minute(s).\nThat is equivalent to " + this.model.getDuration() + " minute(s).");
+                this.view.enableStartOffsetButton();
+                break;
+            case "Set start offset":
+                while (true) {
+                    hour = this.view.getIntegerInput("Enter how many hours before sunrise the sound should play:");
+                    if (hour >= 0) {
+                        break;
+                    } else {
+                        this.view.displayPopUpMessage("Hour value must be greater or equal to 0. Try again.");
+                    }
+                }
+                while (true) {
+                    min = this.view.getIntegerInput("Enter how many minutes before sunrise the sound should play:");
+                    if (min >= 0) {
+                        break;
+                    } else {
+                        this.view.displayPopUpMessage("Minute value must be greater or equal to 0. Try again.");
+                    }
+                }
+                this.model.setSoundDuration(hour, min);
+                this.view.displayPopUpMessage("Your audio will play " + hour + " hour(s) and " + min +
+                        " minute(s) before sunrise.\nThat is equivalent to " + this.model.getDuration() + " minute(s).");
+                this.view.enableGoButton();
+                break;
+            case "go":
+                //http://tutorials.jenkov.com/java-util-concurrent/scheduledexecutorservice.html
+                this.view.enableStopButton();
+                break;
         }
     }
 }

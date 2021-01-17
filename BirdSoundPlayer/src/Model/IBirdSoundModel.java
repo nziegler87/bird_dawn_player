@@ -96,4 +96,22 @@ public interface IBirdSoundModel {
      * @return Returns true if audio file, sunrise, and sound duration are all set, otherwise false.
      */
     boolean readyForStart();
+
+    /**
+     * Returns how long the sound should play, an int, in minutes.
+     *
+     * @return an int of how long the sound should play, in minutes.
+     */
+    int getDuration();
+
+    /**
+     * Method to set how early the song should start playing before the given sunrise.
+     *
+     * @param hour the number of hours before sunrise that the sound should start playing.
+     * @param minute the number of minutes before sunrise that the sound should start playing.
+     *
+     * @throws IllegalArgumentException if hour or minute values are less than zero
+     */
+    void setStartOffset(int hour, int minute) throws IllegalArgumentException;
+
 }

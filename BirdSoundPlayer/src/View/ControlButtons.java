@@ -5,8 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class ControlButtons extends JPanel {
-    JButton loadFile, automaticallySetSunrise, manuallySetSunrise, setSoundDuration, playButton, pauseButton,
-            stopButton, goButton, powerButton;
+    JButton loadFile, automaticallySetSunrise, manuallySetSunrise, setSoundDuration, startOffsetButton,
+            playButton, pauseButton, stopButton, goButton, powerButton;
     Color backgroundColor = new Color(223, 216, 255);
 
     public ControlButtons(int width, int height) {
@@ -16,47 +16,47 @@ public class ControlButtons extends JPanel {
 
         // load file button
         this.loadFile = new JButton("Load file");
-        this.add(loadFile);
+        this.add(this.loadFile);
 
         // auto get sunrise button
         this.automaticallySetSunrise = new JButton("Automatically set sunrise");
-        this.add(automaticallySetSunrise);
+        this.add(this.automaticallySetSunrise);
+        this.automaticallySetSunrise.setEnabled(false);
 
         // manually set sunrise button
         this.manuallySetSunrise = new JButton("Manually set sunrise");
-        this.add(manuallySetSunrise);
+        this.add(this.manuallySetSunrise);
+        this.manuallySetSunrise.setEnabled(false);
 
         // sound duration button
         this.setSoundDuration = new JButton("Set sound duration");
-        this.add(setSoundDuration);
+        this.add(this.setSoundDuration);
+        this.setSoundDuration.setEnabled(false);
+
+        // start offset button
+        this.startOffsetButton = new JButton("Set start offset");
+        this.add(this.startOffsetButton);
+        this.startOffsetButton.setEnabled(false);
 
         // play button
-        this.playButton = this.setUpButton("./images/play_resized.png", "play");
+        this.playButton = this.setUpImageButton("./images/play_resized.png", "play");
         this.add(this.playButton);
 
         // pause button
-        this.pauseButton = this.setUpButton("./images/pause_resized.png", "pause");
+        this.pauseButton = this.setUpImageButton("./images/pause_resized.png", "pause");
         this.add(this.pauseButton);
 
         // stop button
-        this.stopButton = this.setUpButton("./images/stop_resized.png", "stop");
+        this.stopButton = this.setUpImageButton("./images/stop_resized.png", "stop");
         this.add(this.stopButton);
 
         // go button
-        this.goButton = this.setUpButton("./images/go_resized.png", "go");
+        this.goButton = this.setUpImageButton("./images/go_resized.png", "go");
         this.add(this.goButton);
 
         // power button
-        this.powerButton = this.setUpButton("./images/power_resized.png", "powerOff");
+        this.powerButton = this.setUpImageButton("./images/power_resized.png", "powerOff");
         this.add(this.powerButton);
-
-        // start with most buttons disabled
-        this.setSoundDuration.setEnabled(false);
-        this.playButton.setEnabled(false);
-        this.pauseButton.setEnabled(false);
-        this.stopButton.setEnabled(false);
-        this.goButton.setEnabled(false);
-        this.powerButton.setEnabled(false);
 
         this.setVisible(true);
     }
@@ -68,11 +68,24 @@ public class ControlButtons extends JPanel {
      * @param command action command for the button, a string
      * @return a new JButton
      */
-    private JButton setUpButton(String imageString, String command){
+    private JButton setUpImageButton(String imageString, String command){
         ImageIcon icon = new ImageIcon(imageString);
         JButton button = new JButton(icon);
         button.setActionCommand(command);
         button.setBorderPainted(false);
+        button.setEnabled(false);
+        return button;
+    }
+
+    /**
+     * Method to set up text buttons as deactivated.
+     *
+     * @param command action command for the button, a string
+     * @return a new JButton
+     */
+    private JButton setUpTextButton(String command){
+        JButton button = new JButton(command);
+
         return button;
     }
 
@@ -91,6 +104,7 @@ public class ControlButtons extends JPanel {
         this.stopButton.addActionListener(listener);
         this.goButton.addActionListener(listener);
         this.powerButton.addActionListener(listener);
+        this.startOffsetButton.addActionListener(listener);
     }
 
     /**
@@ -169,6 +183,20 @@ public class ControlButtons extends JPanel {
         this.playButton.setEnabled(false);
         this.pauseButton.setEnabled(false);
         this.stopButton.setEnabled(false);
+    }
+
+    /**
+     * Method to enable the set offset button.
+     */
+    public void enableStartOffsetButton() {
+        this.startOffsetButton.setEnabled(true);
+    }
+
+    /**
+     * Method to disable the set offset button.
+     */
+    public void disableStartOffsetButton() {
+        this.startOffsetButton.setEnabled(false);
     }
 
 
