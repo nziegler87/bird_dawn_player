@@ -115,4 +115,41 @@ public interface IBirdSoundModel {
      */
     void setStartOffset(int hour, int minute) throws IllegalArgumentException;
 
+    /**
+     * Method to set latitude of user.
+     *
+     * @param latitude latitude of user, a double.
+     *
+     * @throws IllegalArgumentException if latitude value is not valid
+     */
+    void setLatitude(double latitude) throws IllegalArgumentException;
+
+    /**
+     * Method to set longitude of user.
+     *
+     * @param longitude longitude of user, a double.
+     *
+     * @throws IllegalArgumentException if longitude value is not valid
+     */
+    void setLongitude(double longitude) throws IllegalArgumentException;
+
+    /**
+     * Method to get latitude of user.
+     *
+     *
+     * @return latitude of user, a double.
+     *
+     * @throws IllegalStateException if latitude has not been set.
+     */
+    double getLatitude() throws IllegalStateException;
+
+    /**
+     * Method to get longitude of user.
+     *
+     * @return longitude of user, a double.
+     *
+     * @throws IllegalStateException if longitude has not been set.
+     */
+    double getLongitude() throws IllegalStateException;
+
 }

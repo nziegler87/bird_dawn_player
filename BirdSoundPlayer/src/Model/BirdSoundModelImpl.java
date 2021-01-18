@@ -16,6 +16,8 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     private Clip clip;
     private String filePath;
     private File audioFile;
+    private Double longitude;
+    private Double latitude;
     private AudioInputStream audioInputStream;
     private AudioControls status;
     private long currentFrame;
@@ -61,9 +63,6 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
         } catch (LineUnavailableException | IOException IOE) {
             throw new IllegalStateException("Error opening line.");
         }
-
-        // commented this out because the file would start playing with this before it was selected
-//            this.clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     /**
@@ -101,7 +100,6 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
 
         this.soundDurationMinute = hour * 60 + minute;
     }
-
 
     /**
      * Checks to make sure that hour and int params are valid.
@@ -299,6 +297,67 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
         }
 
         this.startOffset = hour * 60 + minute;
+    }
+
+    /**
+     * Method to set latitude of user.
+     *
+     * @param latitude latitude of user, a double.
+     * @throws IllegalArgumentException if latitude value is not valid
+     */
+    @Override
+    public void setLatitude(double latitude) throws IllegalArgumentException {
+        if (latitude >= -90 && latitude <= 90) {
+            throw new IllegalArgumentException("Invalid latitude entry.");
+        }
+
+        this.latitude = latitude;
+
+    }
+
+    /**
+     * Method to set longitude of user.
+     *
+     * @param longitude longitude of user, a double.
+     * @throws IllegalArgumentException if longitude value is not valid
+     */
+    @Override
+    public void setLongitude(double longitude) throws IllegalArgumentException {
+        if (longitude >= -180 && longitude <= 180) {
+            throw new IllegalArgumentException("Invalid longitude entry.");
+        }
+
+        this.longitude = longitude;
+    }
+
+    /**
+     * Method to get latitude of user.
+     *
+     * @return latitude of user, a double.
+     * @throws IllegalStateException if latitude has not been set.
+     */
+    @Override
+    public double getLatitude() throws IllegalStateException {
+        if (this.latitude == null) {
+            throw new IllegalStateException("Latitude has not been set.");
+        };
+
+        return this.latitude;
+    }
+
+    /**
+     * Method to get longitude of user.
+     *
+     * @return longitude of user, a double.
+     * @throws IllegalStateException if longitude has not been set.
+     */
+    @Override
+    public double getLongitude() throws IllegalStateException {
+        if (this.longitude == null) {
+            throw new IllegalStateException("Longitude has not been set.");
+        };
+
+        return this.longitude;
     }
 
     /**
