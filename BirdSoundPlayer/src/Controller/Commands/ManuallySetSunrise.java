@@ -3,6 +3,7 @@ package Controller.Commands;
 import Model.IBirdSoundModel;
 import View.IBirdSoundView;
 
+import java.awt.*;
 import java.time.ZoneId;
 
 public class ManuallySetSunrise implements ICommand {
@@ -32,6 +33,8 @@ public class ManuallySetSunrise implements ICommand {
         model.manuallySetSunrise(hour, min);
         view.displayPopUpMessage("Sunrise set to " + model.returnLocalTime(ZoneId.systemDefault()) +
                 "\n\nIf this isn't correct, re-enter your sunrise information.");
+        view.updateStatusMessage("Sunrise time set manually. Don't forget to update this periodically.", new Color(0, 227, 176), new Color(0,0,0));
+
         view.enableStartOffsetButton();
     }
 }

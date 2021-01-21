@@ -3,6 +3,7 @@ package Controller.Commands;
 import Model.IBirdSoundModel;
 import View.IBirdSoundView;
 
+import java.awt.*;
 import java.time.ZoneId;
 
 public class AutomaticallySetSunrise implements ICommand {
@@ -35,6 +36,7 @@ public class AutomaticallySetSunrise implements ICommand {
             view.displayPopUpMessage("Sunrise set to " + model.returnLocalTime(ZoneId.systemDefault()) +
                     "\n\nIf this isn't correct, restart this process and confirm your latitude and longitude data.");
             view.enableStartOffsetButton();
+            view.updateStatusMessage("Sunrise time automatically set using given coordinates. This will update daily.", new Color(0, 227, 176), new Color(0,0,0));
         } catch (IllegalStateException ISE) {
             view.displayPopUpMessage("Error getting sunrise data. Try again or manually input sunrise.");
         }

@@ -178,10 +178,10 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     @Override
     public void play() {
 
-        if (this.status == AudioControls.PLAY) {
-            // do nothing
+        if (this.status == AudioControls.PAUSE) {
+            this.resume();
         }
-        if (this.status == AudioControls.STOP || this.status == AudioControls.PAUSE) {
+        if (this.status == AudioControls.STOP) {
             this.status = AudioControls.PLAY;
             this.clip.loop(Clip.LOOP_CONTINUOUSLY);
             this.restart();
@@ -307,7 +307,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
      */
     @Override
     public void setLatitude(double latitude) throws IllegalArgumentException {
-        if (latitude >= -90 && latitude <= 90) {
+        if (!(latitude >= -90 && latitude <= 90)) {
             throw new IllegalArgumentException("Invalid latitude entry.");
         }
 
@@ -323,7 +323,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
      */
     @Override
     public void setLongitude(double longitude) throws IllegalArgumentException {
-        if (longitude >= -180 && longitude <= 180) {
+        if (!(longitude >= -180 && longitude <= 180)) {
             throw new IllegalArgumentException("Invalid longitude entry.");
         }
 
