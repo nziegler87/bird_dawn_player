@@ -300,6 +300,14 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     }
 
     /**
+     * Method to set how early the song should start playing before the given sunrise.
+     */
+    @Override
+    public int getStartOffset() {
+        return this.startOffset;
+    }
+
+    /**
      * Method to set latitude of user.
      *
      * @param latitude latitude of user, a double.

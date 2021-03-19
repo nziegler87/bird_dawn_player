@@ -116,6 +116,12 @@ public interface IBirdSoundModel {
     void setStartOffset(int hour, int minute) throws IllegalArgumentException;
 
     /**
+     * Method to set how early the song should start playing before the given sunrise.
+     */
+    int getStartOffset();
+
+
+    /**
      * Method to set latitude of user.
      *
      * @param latitude latitude of user, a double.

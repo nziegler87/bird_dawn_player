@@ -13,7 +13,7 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
     private final int horizontalGap = 5;
     private final int actionBarHeight= 25;
     private final JFileChooser fileChooser = new JFileChooser();
-    private JFrame popUpWindow = new JFrame();
+    private final JFrame popUpWindow = new JFrame();
 
     private final StatusBar statusBar;
     private final ControlButtons controlButtons;
