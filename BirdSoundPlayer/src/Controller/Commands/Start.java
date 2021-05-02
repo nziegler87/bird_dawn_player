@@ -21,6 +21,7 @@ public class Start implements ICommand {
 
         view.disableGoButton();
         view.enableStopButton();
+        model.stop();
         view.updateStatusMessage("Sound will begin playing at " + model.returnLocalTimeOfSunrise(ZoneId.systemDefault()), new Color(30, 7, 139), new Color(0,0,0));
 
 
@@ -31,31 +32,19 @@ public class Start implements ICommand {
         view.disablePlayControls();
 
         Timer playSoundTimer = new Timer();
+        ZonedDateTime finalEndTime = endTime;
         TimerTask startSoundTask = new TimerTask() {
             @Override
             public void run() {
                 model.play();
                 String DATE_FORMAT = "hh:mm a";
                 DateTimeFormatter format = DateTimeFormatter.ofPattern(DATE_FORMAT);
-                view.updateStatusMessage("Bird sound is playing! It will stop playing at " + format.format(endTime), new Color(39, 154, 0), new Color(0,0,0));
+                view.updateStatusMessage("Bird sound is playing! It will stop playing at " + format.format(finalEndTime), new Color(39, 154, 0), new Color(0,0,0));
             }
         };
 
         playSoundTimer.schedule(startSoundTask, Date.from(startTime.toInstant()));
 
-        // I want to somehow update the sunrise data
-        if ( model.isAutoSunrise() ) {
-            System.out.println("The sunrise should auto update!");
-            Timer updateSunrise = new Timer();
-            TimerTask updateSunriseTask = new TimerTask() {
-                @Override
-                public void run() {
-                    model.automaticallySetSunrise(model.getLatitude(), model.getLongitude());
-                }
-            };
-
-            updateSunrise.schedule(updateSunriseTask, Date.from(endTime.toInstant().plus(1, ChronoUnit.MINUTES)));
-        }
 
 
         Timer stopSoundTimer = new Timer();
@@ -64,7 +53,8 @@ public class Start implements ICommand {
             public void run() {
                 model.stop();
                 if ( model.isAutoSunrise() ){
-                    view.updateStatusMessage("Bird sound has finished playing for the day. Sunrise will be auto updated and sound will begin playing tomorrow at " +
+                    model.automaticallySetSunrise(model.getLatitude(), model.getLongitude());
+                    view.updateStatusMessage("Bird sound has finished playing for the day. Sunrise was be auto updated and sound will begin playing tomorrow at " +
                             model.returnLocalTimeOfSunrise(ZoneId.systemDefault()), new Color(30, 7, 139), new Color(0,0,0));
                 } else {
                     view.updateStatusMessage("Bird sound has finished playing for the day. Sound will begin playing tomorrow at " +
@@ -74,6 +64,8 @@ public class Start implements ICommand {
         };
         
         stopSoundTimer.schedule(stopSoundTask, Date.from(endTime.toInstant()));
+
+
         System.out.println("Did we get here?");
     }
 }
