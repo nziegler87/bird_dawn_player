@@ -5,11 +5,11 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.concurrent.TimeUnit;
 
-public class StatusBar extends JPanel {
+public class TopStatusBar extends JPanel {
     JLabel statusLabel;
     String status = "Hello! To start, select an audio file. Must be AIFC, AIFF, AU, SND or WAV format. ";
 
-    public StatusBar(int width, int height) {
+    public TopStatusBar(int width, int height) {
         super();
 
         this.setPreferredSize(new Dimension(width, height));

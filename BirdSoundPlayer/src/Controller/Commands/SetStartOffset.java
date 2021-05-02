@@ -3,6 +3,8 @@ package Controller.Commands;
 import Model.IBirdSoundModel;
 import View.IBirdSoundView;
 
+import java.awt.*;
+
 public class SetStartOffset implements ICommand {
     @Override
     public void go(IBirdSoundView view, IBirdSoundModel model) {
@@ -28,6 +30,8 @@ public class SetStartOffset implements ICommand {
         model.setSoundDuration(hour, min);
         view.displayPopUpMessage("Your audio will play " + hour + " hour(s) and " + min +
                 " minute(s) before sunrise.\nThat is equivalent to " + model.getDuration() + " minute(s).");
+        view.updateStatusMessage("Start offset set. Now set how long the sound should play for.", new Color(59, 34, 118), new Color(0,0,0));
+        view.updateOffsetText("" + hour + " hours " + min + " mins ");
         view.enableSoundDuration();
     }
 }

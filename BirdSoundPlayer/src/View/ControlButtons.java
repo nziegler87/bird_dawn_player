@@ -1,63 +1,105 @@
 package View;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.plaf.BorderUIResource;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.concurrent.Flow;
 
 public class ControlButtons extends JPanel {
     JButton loadFile, automaticallySetSunrise, manuallySetSunrise, setSoundDuration, startOffsetButton,
             playAudioButton, pauseAudioButton, stopAudioButton, goButton, stopButton;
+    JPanel loadFilePanel, sunrisePanel, soundPanel, audioControlsPanel, masterControlPanel;
     Color backgroundColor = new Color(223, 216, 255);
 
     public ControlButtons(int width, int height) {
         super();
         this.setBackground(this.backgroundColor);
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+
+        // load file Panel and Button
+        this.loadFilePanel = new JPanel();
+        this.loadFilePanel.setLayout(new FlowLayout());
+        this.loadFilePanel.setBackground(new Color(245, 243, 255));
 
 
-        // load file button
         this.loadFile = new JButton("Load file");
         this.loadFile.setActionCommand("load file");
-        this.add(this.loadFile);
+        this.loadFilePanel.add(this.loadFile);
 
-        // auto get sunrise button
-        this.automaticallySetSunrise = new JButton("Automatically set sunrise");
-        this.add(this.automaticallySetSunrise);
-        this.automaticallySetSunrise.setEnabled(false);
+        this.add(this.loadFilePanel);
 
-        // manually set sunrise button
-        this.manuallySetSunrise = new JButton("Manually set sunrise");
-        this.add(this.manuallySetSunrise);
-        this.manuallySetSunrise.setEnabled(false);
-
-        // sound duration button
-        this.setSoundDuration = new JButton("Set sound duration");
-        this.add(this.setSoundDuration);
-        this.setSoundDuration.setEnabled(false);
-
-        // start offset button
-        this.startOffsetButton = new JButton("Set start offset");
-        this.add(this.startOffsetButton);
-        this.startOffsetButton.setEnabled(false);
+        // add sound control panel
+        this.audioControlsPanel = new JPanel();
+        this.audioControlsPanel.setLayout(new FlowLayout());
+        this.audioControlsPanel.setBackground(new Color(223, 216, 255));
 
         // play button
         this.playAudioButton = this.setUpImageButton("./images/play_resized.png", "play sound");
-        this.add(this.playAudioButton);
+        this.audioControlsPanel.add(this.playAudioButton);
 
         // pause button
         this.pauseAudioButton = this.setUpImageButton("./images/pause_resized.png", "pause sound");
-        this.add(this.pauseAudioButton);
+        this.audioControlsPanel.add(this.pauseAudioButton);
 
         // stop button
         this.stopAudioButton = this.setUpImageButton("./images/stop_resized.png", "stop sound");
-        this.add(this.stopAudioButton);
+        this.audioControlsPanel.add(this.stopAudioButton);
+
+        this.add(this.audioControlsPanel);
+
+        // add sunrise info buttons to panel
+        this.sunrisePanel = new JPanel();
+        this.sunrisePanel.setLayout(new FlowLayout());
+        this.sunrisePanel.setBackground(new Color(245, 243, 255));
+
+
+        // auto get sunrise button
+        this.automaticallySetSunrise = new JButton("Automatically set sunrise");
+        this.automaticallySetSunrise.setEnabled(false);
+        this.sunrisePanel.add(this.automaticallySetSunrise);
+
+
+        // manually set sunrise button
+        this.manuallySetSunrise = new JButton("Manually set sunrise");
+        this.manuallySetSunrise.setEnabled(false);
+        this.sunrisePanel.add(this.manuallySetSunrise);
+
+        this.add(this.sunrisePanel);
+
+        // add sound info buttons
+        this.soundPanel = new JPanel();
+        this.soundPanel.setLayout(new FlowLayout());
+        this.soundPanel.setBackground(new Color(223, 216, 255));
+
+        // start offset button
+        this.startOffsetButton = new JButton("Set start offset");
+        this.startOffsetButton.setEnabled(false);
+        this.soundPanel.add(this.startOffsetButton);
+
+        // sound duration button
+        this.setSoundDuration = new JButton("Set sound duration");
+        this.setSoundDuration.setEnabled(false);
+        this.soundPanel.add(this.setSoundDuration);
+
+        this.add(this.soundPanel);
+
+        // add control button panel
+        this.masterControlPanel = new JPanel();
+        this.masterControlPanel.setLayout(new FlowLayout());
+        this.masterControlPanel.setBackground(new Color(245, 243, 255));
+
 
         // go button
         this.goButton = this.setUpImageButton("./images/go_resized.png", "start");
-        this.add(this.goButton);
+        this.masterControlPanel.add(this.goButton);
 
         // power button
         this.stopButton = this.setUpImageButton("./images/power_resized.png", "stop");
-        this.add(this.stopButton);
+        this.masterControlPanel.add(this.stopButton);
+
+        this.add(this.masterControlPanel);
 
         this.setVisible(true);
     }

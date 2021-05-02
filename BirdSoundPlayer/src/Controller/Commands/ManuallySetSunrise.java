@@ -31,10 +31,11 @@ public class ManuallySetSunrise implements ICommand {
             }
         }
         model.manuallySetSunrise(hour, min);
-        view.displayPopUpMessage("Sunrise set to " + model.returnLocalTime(ZoneId.systemDefault()) +
+        model.setAutoSunrise(false);
+        view.displayPopUpMessage("Sunrise set to " + model.returnLocalTimeOfSunrise(ZoneId.systemDefault()) +
                 "\n\nIf this isn't correct, re-enter your sunrise information.");
-        view.updateStatusMessage("Sunrise time set manually. Don't forget to update this periodically.", new Color(0, 227, 176), new Color(0,0,0));
-
+        view.updateStatusMessage("Sunrise time set manually. Don't forget to update this periodically. Now set how early before dawn the sound should start.", new Color(0, 227, 176), new Color(0,0,0));
+        view.updateSunriseText(model.returnLocalTimeOfSunrise(ZoneId.systemDefault()));
         view.enableStartOffsetButton();
     }
 }

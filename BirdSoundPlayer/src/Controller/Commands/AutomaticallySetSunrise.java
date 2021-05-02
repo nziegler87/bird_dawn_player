@@ -33,10 +33,14 @@ public class AutomaticallySetSunrise implements ICommand {
             model.setLatitude(latitude);
             model.setLongitude(longitude);
             model.automaticallySetSunrise(latitude, longitude);
-            view.displayPopUpMessage("Sunrise set to " + model.returnLocalTime(ZoneId.systemDefault()) +
+            model.setAutoSunrise(true);
+            view.displayPopUpMessage("Sunrise set to " + model.returnLocalTimeOfSunrise(ZoneId.systemDefault()) +
                     "\n\nIf this isn't correct, restart this process and confirm your latitude and longitude data.");
+            view.updateLatitudeText(Double.toString(latitude));
+            view.updateLongitudeText(Double.toString(longitude));
+            view.updateSunriseText(model.returnLocalTimeOfSunrise(ZoneId.systemDefault()));
             view.enableStartOffsetButton();
-            view.updateStatusMessage("Sunrise time automatically set using given coordinates. This will update daily.", new Color(0, 227, 176), new Color(0,0,0));
+            view.updateStatusMessage("Sunrise time set automatically using given coordinates. This will update daily. Now set how early before dawn the sound should start.", new Color(0, 227, 176), new Color(0,0,0));
         } catch (IllegalStateException ISE) {
             view.displayPopUpMessage("Error getting sunrise data. Try again or manually input sunrise.");
         }

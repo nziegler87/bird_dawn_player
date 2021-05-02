@@ -27,6 +27,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     private boolean sunriseSet = false;
     private boolean audioSet = false;
     private boolean durationSet = false;
+    private boolean autoSunrise = false;
 
     public BirdSoundModelImpl() {
         // at this point, constructor is empty
@@ -154,16 +155,16 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     }
 
     /**
-     * Returns a formatted version of the sunrise object as HH:MM:SS AM/PM based on a given time zone ID.
+     * Returns a formatted version of the sunrise object as HH:MM AM/PM based on a given time zone ID.
      *
      * @param timeZoneID a time zone ID, a string: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
      * @return a formatted version of the sunrise object as HH:MM:SS AM/PM based on the given time zone ID
      */
     @Override
-    public String returnLocalTime(ZoneId timeZoneID) {
+    public String returnLocalTimeOfSunrise(ZoneId timeZoneID) {
         try {
             ZonedDateTime newDate = this.sunrise.withZoneSameInstant(timeZoneID);
-            String DATE_FORMAT = "hh:mm:ss a";
+            String DATE_FORMAT = "hh:mm a";
             DateTimeFormatter format = DateTimeFormatter.ofPattern(DATE_FORMAT);
             return format.format(newDate);
 
@@ -366,6 +367,26 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
         };
 
         return this.longitude;
+    }
+
+    /**
+     * Method to set if auto sunrise is active.
+     *
+     * @param status
+     */
+    @Override
+    public void setAutoSunrise(boolean status) {
+        this.autoSunrise = status;
+    }
+
+    /**
+     * Checks to see if auto sunrise is set.
+     *
+     * @return true if auto sunrise is set, otherwise false
+     */
+    @Override
+    public boolean isAutoSunrise() {
+        return this.autoSunrise;
     }
 
     /**

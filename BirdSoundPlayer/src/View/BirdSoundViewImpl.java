@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 
 public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
-    private final int windowWidth = 800;
+    private final int windowWidth = 1000;
     private final int windowHeight = 600;
     private final int verticalGap= 5;
     private final int horizontalGap = 5;
@@ -15,8 +15,9 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
     private final JFileChooser fileChooser = new JFileChooser();
     private final JFrame popUpWindow = new JFrame();
 
-    private final StatusBar statusBar;
+    private final TopStatusBar topStatusBar;
     private final ControlButtons controlButtons;
+    private final BottomStatusPanel bottomStatusPanel;
 
     public BirdSoundViewImpl() {
 
@@ -29,8 +30,8 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
         this.setLayout(new BorderLayout(this.verticalGap, this.horizontalGap));
 
         // add status bar
-        this.statusBar = new StatusBar(this.windowWidth, this.actionBarHeight);
-        this.add(statusBar, BorderLayout.PAGE_START);
+        this.topStatusBar = new TopStatusBar(this.windowWidth, this.actionBarHeight);
+        this.add(this.topStatusBar, BorderLayout.PAGE_START);
 
         // add instructions
         InstructionPanel instructionPanel = new InstructionPanel(this.windowWidth / 3, this.windowHeight);
@@ -38,7 +39,11 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
 
         // add control buttons
         this.controlButtons = new ControlButtons(this.windowWidth / 3, this.windowHeight);
-        this.add(controlButtons, BorderLayout.CENTER);
+        this.add(this.controlButtons, BorderLayout.CENTER);
+
+        // add status panel
+        this.bottomStatusPanel = new BottomStatusPanel();
+        this.add(this.bottomStatusPanel, BorderLayout.PAGE_END);
 
         this.setVisible(true);
     }
@@ -82,7 +87,7 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
      */
     @Override
     public void updateStatusMessage(String message, Color bgColor, Color fgColor) {
-        this.statusBar.setStatus(message, bgColor, fgColor);
+        this.topStatusBar.setStatus(message, bgColor, fgColor);
     }
 
     /**
@@ -235,5 +240,50 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
     @Override
     public void setListener(ActionListener listener) {
         this.controlButtons.setListener(listener);
+    }
+
+    @Override
+    public void updateSunriseText(String sunriseText){
+        this.bottomStatusPanel.sunrise.setText(sunriseText);
+    }
+
+    /**
+     * Method to update the latitude text on the status panel.
+     *
+     * @param latitudeText
+     */
+    @Override
+    public void updateLatitudeText(String latitudeText) {
+        this.bottomStatusPanel.latitude.setText(latitudeText);
+    }
+
+    /**
+     * Method to update the longitude text on the status panel.
+     *
+     * @param longitudeText
+     */
+    @Override
+    public void updateLongitudeText(String longitudeText) {
+        this.bottomStatusPanel.longitude.setText(longitudeText);
+    }
+
+    /**
+     * Method to update the duration text on the status panel.
+     *
+     * @param durationText
+     */
+    @Override
+    public void updateDurationText(String durationText) {
+        this.bottomStatusPanel.duration.setText(durationText);
+    }
+
+    /**
+     * Method to update the offset text on the status panel.
+     *
+     * @param offsetText
+     */
+    @Override
+    public void updateOffsetText(String offsetText) {
+        this.bottomStatusPanel.offset.setText(offsetText);
     }
 }

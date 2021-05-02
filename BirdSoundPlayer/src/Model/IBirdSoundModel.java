@@ -62,7 +62,7 @@ public interface IBirdSoundModel {
      * @param timeZoneId a time zone ID, a string: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
      * @return a formatted version of the sunrise object as HH:MM:SS AM/PM based on the given time zone ID
      */
-    String returnLocalTime(ZoneId timeZoneId);
+    String returnLocalTimeOfSunrise(ZoneId timeZoneId);
 
     /**
      * Plays audio clip.
@@ -157,5 +157,19 @@ public interface IBirdSoundModel {
      * @throws IllegalStateException if longitude has not been set.
      */
     double getLongitude() throws IllegalStateException;
+
+    /**
+     * Method to set if auto sunrise is active.
+     *
+     * @param status
+     */
+    void setAutoSunrise(boolean status);
+
+    /**
+     * Checks to see if auto sunrise is set.
+     *
+     * @return true if auto sunrise is set, otherwise false
+     */
+    boolean isAutoSunrise();
 
 }

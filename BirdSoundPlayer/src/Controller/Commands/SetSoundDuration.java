@@ -3,6 +3,8 @@ package Controller.Commands;
 import Model.IBirdSoundModel;
 import View.IBirdSoundView;
 
+import java.awt.*;
+
 public class SetSoundDuration implements ICommand {
     @Override
     public void go(IBirdSoundView view, IBirdSoundModel model) {
@@ -27,6 +29,9 @@ public class SetSoundDuration implements ICommand {
         model.setSoundDuration(hour, min);
         view.displayPopUpMessage("Your audio will play for " + hour + " hour(s) and " + min +
                 " minute(s).\nThat is equivalent to " + model.getDuration() + " minute(s).");
+        view.updateDurationText("" + hour + " hours " + min + " mins ");
+        view.updateStatusMessage("Sound duration set. Now hit go!", new Color(118, 7, 139), new Color(0,0,0));
+
         view.enableGoButton();
     }
 }

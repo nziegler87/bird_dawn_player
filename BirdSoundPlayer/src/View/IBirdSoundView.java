@@ -103,4 +103,38 @@ public interface IBirdSoundView {
      * Method to enable the sunrise buttons.
      */
     void enableSunriseButtons();
+
+    /**
+     * Method to update the sunrise text on the status panel.
+     *
+     * @param sunriseText text to add to the screen
+     */
+    void updateSunriseText(String sunriseText);
+
+    /**
+     * Method to update the latitude text on the status panel.
+     * @param latitudeText
+     */
+    void updateLatitudeText(String latitudeText);
+
+    /**
+     * Method to update the longitude text on the status panel.
+     *
+     * @param longitudeText
+     */
+    void updateLongitudeText(String longitudeText);
+
+    /**
+     * Method to update the duration text on the status panel.
+     *
+     * @param durationText
+     */
+    void updateDurationText(String durationText);
+
+    /**
+     * Method to update the offset text on the status panel.
+     *
+     * @param offsetText
+     */
+    void updateOffsetText(String offsetText);
 }
