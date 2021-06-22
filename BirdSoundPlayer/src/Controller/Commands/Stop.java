@@ -10,5 +10,7 @@ public class Stop implements ICommand {
         view.disableStopButton();
         view.enableGoButton();
         view.enablePlayControls();
+
+        // TODO: add things to the model so that the timers can be stopped from here
     }
 }
