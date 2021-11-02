@@ -11,6 +11,8 @@ import java.net.http.HttpResponse;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.zone.ZoneRulesException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class BirdSoundModelImpl implements IBirdSoundModel {
     private Clip clip;
@@ -28,6 +30,16 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     private boolean audioSet = false;
     private boolean durationSet = false;
     private boolean autoSunrise = false;
+
+    private ZonedDateTime startTime;
+    private ZonedDateTime endTime;
+
+    // TODO: Probably remove
+    private Timer playSoundTimer;
+    private TimerTask startSoundTask;
+    private TimerTask stopSoundTask;
+    private Timer stopSoundTimer;
+
 
     public BirdSoundModelImpl() {
         // at this point, constructor is empty
@@ -90,6 +102,8 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
 
         // add a day to the sunrise if it has passed
         if ( currentDateTime.isAfter(this.sunrise.toLocalDateTime()) ){
+            // TODO: REMOVE
+            System.out.println("Adding a day.");
             this.sunrise = this.sunrise.plusDays(1);
         }
 
@@ -158,9 +172,11 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
             // if the current time is greater than the sunrise, add a day to the sunrise
             ZonedDateTime now = ZonedDateTime.now();
             if ( now.compareTo(this.sunrise) > 0 ){
+                // TODO: REMOVE
+                System.out.println("Adding a day.");
                 this.sunrise = this.sunrise.plusDays(1);
             }
-
+            this.autoSunrise = true;
             this.sunriseSet = true;
 
         } catch (IOException | InterruptedException e) {
@@ -437,4 +453,35 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
 
         this.clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
+
+    /**
+     * Method to return when the audio file is scheduled to start playing.
+     *
+     * @return ZonedDateTime of when the audio is to start playing.
+     */
+    @Override
+    public ZonedDateTime getStartTime() {
+        return this.startTime;
+    }
+
+    /**
+     * Method to return when the audio file is scheduled to stop playing.
+     *
+     * @return ZonedDateTime of when the audio is to stop playing.
+     */
+    @Override
+    public ZonedDateTime getEndTime() {
+        return this.endTime;
+    }
+
+    /**
+     * Method to schedule the audio to play.
+     */
+    @Override
+    public void scheduleAudioPlaying() {
+        this.startTime = this.sunrise.minusMinutes(this.startOffset);
+        this.endTime = this.startTime.plusMinutes(this.soundDurationMinute);
+
+    }
+
 }

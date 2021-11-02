@@ -137,4 +137,6 @@ public interface IBirdSoundView {
      * @param offsetText
      */
     void updateOffsetText(String offsetText);
+
+    void updateAutoText(String offsetText);
 }

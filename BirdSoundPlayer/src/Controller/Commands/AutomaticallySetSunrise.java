@@ -40,6 +40,7 @@ public class AutomaticallySetSunrise implements ICommand {
             view.updateLongitudeText(Double.toString(longitude));
             view.updateSunriseText(model.returnLocalTimeOfSunrise(ZoneId.systemDefault()));
             view.enableStartOffsetButton();
+            view.updateAutoText(String.valueOf(model.isAutoSunrise()).substring(0,1).toUpperCase() + String.valueOf(model.isAutoSunrise()).substring(1));
             view.updateStatusMessage("Sunrise time set automatically using given coordinates. This will update daily. Now set how early before dawn the sound should start.", new Color(0, 227, 176), new Color(0,0,0));
         } catch (IllegalStateException ISE) {
             view.displayPopUpMessage("Error getting sunrise data. Try again or manually input sunrise.");

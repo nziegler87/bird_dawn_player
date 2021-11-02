@@ -178,4 +178,23 @@ public interface IBirdSoundModel {
      */
     boolean isAutoSunrise();
 
+    /**
+     * Method to schedule the audio to play.
+     */
+    void scheduleAudioPlaying();
+
+    /**
+     * Method to return when the audio file is scheduled to start playing.
+     *
+     * @return ZonedDateTime of when the audio is to start playing.
+     */
+    ZonedDateTime getStartTime();
+
+    /**
+     * Method to return when the audio file is scheduled to stop playing.
+     *
+     * @return ZonedDateTime of when the audio is to stop playing.
+     */
+    ZonedDateTime getEndTime();
+
 }

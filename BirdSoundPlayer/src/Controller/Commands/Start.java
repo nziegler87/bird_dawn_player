@@ -22,29 +22,21 @@ public class Start implements ICommand {
         view.disableGoButton();
         view.enableStopButton();
         model.stop();
-        view.updateStatusMessage("Sound will begin playing at " + model.returnLocalTimeOfSunrise(ZoneId.systemDefault()), new Color(30, 7, 139), new Color(0,0,0));
-
-
-        ZonedDateTime sunrise = model.getSunrise();
-        long offset = model.getStartOffset();
-        ZonedDateTime startTime = sunrise.minusMinutes(offset);
-        ZonedDateTime endTime = startTime.plusMinutes(model.getDuration());
+        model.scheduleAudioPlaying();
         view.disablePlayControls();
+        String DATE_FORMAT = "hh:mm a";
+        DateTimeFormatter format = DateTimeFormatter.ofPattern(DATE_FORMAT);
+        view.updateStatusMessage("Sound will begin playing at " + format.format(model.getStartTime()), new Color(30, 7, 139), new Color(0,0,0));
+
 
         Timer playSoundTimer = new Timer();
-        ZonedDateTime finalEndTime = endTime;
         TimerTask startSoundTask = new TimerTask() {
             @Override
             public void run() {
                 model.play();
-                String DATE_FORMAT = "hh:mm a";
-                DateTimeFormatter format = DateTimeFormatter.ofPattern(DATE_FORMAT);
-                view.updateStatusMessage("Bird sound is playing! It will stop playing at " + format.format(finalEndTime), new Color(39, 154, 0), new Color(0,0,0));
+                view.updateStatusMessage("Bird sound is playing! It will stop playing at " + format.format(model.getEndTime()), new Color(39, 154, 0), new Color(0,0,0));
             }
         };
-
-        playSoundTimer.schedule(startSoundTask, Date.from(startTime.toInstant()));
-
 
 
         Timer stopSoundTimer = new Timer();
@@ -54,18 +46,23 @@ public class Start implements ICommand {
                 model.stop();
                 if ( model.isAutoSunrise() ){
                     model.automaticallySetSunrise(model.getLatitude(), model.getLongitude());
+                    model.scheduleAudioPlaying();
+                    playSoundTimer.schedule(startSoundTask, Date.from(model.getStartTime().toInstant()));
+                    stopSoundTimer.schedule(this, Date.from(model.getEndTime().toInstant()));
                     view.updateStatusMessage("Bird sound has finished playing for the day. Sunrise was be auto updated and sound will begin playing tomorrow at " +
-                            model.returnLocalTimeOfSunrise(ZoneId.systemDefault()), new Color(30, 7, 139), new Color(0,0,0));
+                            format.format(model.getStartTime()), new Color(30, 7, 139), new Color(0,0,0));
                 } else {
                     view.updateStatusMessage("Bird sound has finished playing for the day. Sound will begin playing tomorrow at " +
                             model.returnLocalTimeOfSunrise(ZoneId.systemDefault()) + ". Don't forget to update the sunrise data.", new Color(30, 7, 139), new Color(0,0,0));
                 }
             }
         };
-        
-        stopSoundTimer.schedule(stopSoundTask, Date.from(endTime.toInstant()));
 
+        playSoundTimer.schedule(startSoundTask, Date.from(model.getStartTime().toInstant()));
+        stopSoundTimer.schedule(stopSoundTask, Date.from(model.getEndTime().toInstant()));
 
-        System.out.println("Did we get here?");
+//
+//
+//        System.out.println("Did we get here?");
     }
 }
