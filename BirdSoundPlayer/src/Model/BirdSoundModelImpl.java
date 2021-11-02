@@ -11,7 +11,6 @@ import java.net.http.HttpResponse;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.zone.ZoneRulesException;
-import java.util.Timer;
 
 public class BirdSoundModelImpl implements IBirdSoundModel {
     private Clip clip;
@@ -44,21 +43,26 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     @Override
     public void loadFile(String filePath) throws IllegalStateException {
 
+        // save the filepath and get the file
         this.filePath = filePath;
         this.audioFile = new File(this.filePath).getAbsoluteFile();
 
+        // try setting the audio input stream
         try {
             this.audioInputStream = AudioSystem.getAudioInputStream(this.audioFile);
         } catch (UnsupportedAudioFileException | IOException IOE) {
             throw new IllegalStateException("Audio file is not valid.");
         }
 
+        // TODO: Figure this out
+        // not exactly sure what is happening here but know it needs to be surrounded in a try/catch
         try {
             this.clip = AudioSystem.getClip();
         } catch (LineUnavailableException LUE) {
             throw new IllegalStateException("Error opening clip line.");
         }
 
+        // also not exactly sure what is happening here but know it needs to be surrounded in a try/catch
         try {
             this.clip.open(this.audioInputStream);
             this.audioSet = true;
@@ -83,6 +87,12 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
         LocalDateTime currentDateTime = LocalDateTime.now();
         this.sunrise = ZonedDateTime.of(currentDateTime.getYear(), currentDateTime.getMonthValue(),
                 currentDateTime.getDayOfMonth(), hour, minute, 0, 0, ZoneId.systemDefault());
+
+        // add a day to the sunrise if it has passed
+        if ( currentDateTime.isAfter(this.sunrise.toLocalDateTime()) ){
+            this.sunrise = this.sunrise.plusDays(1);
+        }
+
         this.sunriseSet = true;
     }
 
@@ -130,7 +140,9 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
      */
     @Override
     public void automaticallySetSunrise(double latitude, double longitude) throws IllegalStateException {
+        // create the url to request the api
         String url = "https://api.sunrise-sunset.org/json?lat=" + latitude + "&lng=" + longitude + "&formatted=0";
+
         // create a client
         HttpClient client = HttpClient.newHttpClient();
 
@@ -141,12 +153,27 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             this.sunrise = new SunriseSunsetParser(response.body()).getSunrise();
+
+            // get the current time
+            // if the current time is greater than the sunrise, add a day to the sunrise
+            ZonedDateTime now = ZonedDateTime.now();
+            if ( now.compareTo(this.sunrise) > 0 ){
+                this.sunrise = this.sunrise.plusDays(1);
+            }
+
             this.sunriseSet = true;
+
         } catch (IOException | InterruptedException e) {
             throw new IllegalStateException("Error setting sunrise.");
         }
     }
 
+    /**
+     * Function to retrieve the sunrise.
+     *
+     * @return the saved sunrise
+     * @throws IllegalStateException if no sunrise data is stored
+     */
     public ZonedDateTime getSunrise() throws IllegalStateException {
         if (this.sunrise == null) {
             throw new IllegalStateException("Sunrise data needs to be automatically set or manually entered.");
@@ -393,7 +420,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     /**
      * Resets audio stream.
      *
-     * @throws IllegalStateException if there is an error reseting the audio stream.
+     * @throws IllegalStateException if there is an error resetting the audio stream.
      */
     private void resetAudioStream() throws IllegalStateException {
         try {

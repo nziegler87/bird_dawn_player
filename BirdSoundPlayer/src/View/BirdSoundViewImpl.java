@@ -12,6 +12,7 @@ public class BirdSoundViewImpl extends JFrame implements IBirdSoundView {
     private final int verticalGap= 5;
     private final int horizontalGap = 5;
     private final int actionBarHeight= 25;
+    // TODO: Can fileChooser be deleted?
     private final JFileChooser fileChooser = new JFileChooser();
     private final JFrame popUpWindow = new JFrame();
 

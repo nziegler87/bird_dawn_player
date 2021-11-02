@@ -37,6 +37,12 @@ public interface IBirdSoundModel {
      */
     void automaticallySetSunrise(double latitude, double longitude);
 
+    // TODO: Do I need this?
+//    /**
+//     * Function to automatically update the sunrise when in auto mode.
+//     */
+//    void updateAutoSunrise();
+
     /**
      * Set length of time that sound should play after the start time.
      *
