@@ -30,6 +30,7 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
     private boolean audioSet = false;
     private boolean durationSet = false;
     private boolean autoSunrise = false;
+    private boolean soundDone = false;
 
     private ZonedDateTime startTime;
     private ZonedDateTime endTime;
@@ -484,4 +485,13 @@ public class BirdSoundModelImpl implements IBirdSoundModel {
 
     }
 
+    @Override
+    public boolean soundDone() {
+        return this.soundDone;
+    }
+
+    @Override
+    public void setSoundDone(boolean status){
+        this.soundDone = status;
+    }
 }

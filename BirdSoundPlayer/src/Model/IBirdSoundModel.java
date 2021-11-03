@@ -197,4 +197,8 @@ public interface IBirdSoundModel {
      */
     ZonedDateTime getEndTime();
 
+    void setSoundDone(boolean status);
+
+    boolean soundDone();
+
 }
