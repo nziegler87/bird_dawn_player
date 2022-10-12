@@ -36,15 +36,15 @@ public class ControlButtons extends JPanel {
         this.audioControlsPanel.setBackground(new Color(223, 216, 255));
 
         // play button
-        this.playAudioButton = this.setUpImageButton("./images/play_resized.png", "play sound");
+        this.playAudioButton = this.setUpImageButton("BirdSoundPlayer/Images/play_resized.png", "play sound");
         this.audioControlsPanel.add(this.playAudioButton);
 
         // pause button
-        this.pauseAudioButton = this.setUpImageButton("./images/pause_resized.png", "pause sound");
+        this.pauseAudioButton = this.setUpImageButton("BirdSoundPlayer/Images/pause_resized.png", "pause sound");
         this.audioControlsPanel.add(this.pauseAudioButton);
 
         // stop button
-        this.stopAudioButton = this.setUpImageButton("./images/stop_resized.png", "stop sound");
+        this.stopAudioButton = this.setUpImageButton("BirdSoundPlayer/Images/stop_resized.png", "stop sound");
         this.audioControlsPanel.add(this.stopAudioButton);
 
         this.add(this.audioControlsPanel);
@@ -92,11 +92,11 @@ public class ControlButtons extends JPanel {
 
 
         // go button
-        this.goButton = this.setUpImageButton("./images/go_resized.png", "start");
+        this.goButton = this.setUpImageButton("BirdSoundPlayer/Images/go_resized.png", "start");
         this.masterControlPanel.add(this.goButton);
 
         // power button
-        this.stopButton = this.setUpImageButton("./images/power_resized.png", "stop");
+        this.stopButton = this.setUpImageButton("BirdSoundPlayer/Images/power_resized.png", "stop");
         this.masterControlPanel.add(this.stopButton);
 
         this.add(this.masterControlPanel);
